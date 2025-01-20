@@ -21,11 +21,13 @@ type CoUser struct {
 }
 
 type Loan struct {
-	id         int
-	debtorId   int
-	creditorId int
-	amount     int
-	name       string
+	id           int
+	debtorId     int
+	debtorIsCo   bool
+	creditorId   int
+	creditorIsCo bool
+	amount       int
+	name         string
 }
 
 func Hoge(w http.ResponseWriter, r *http.Request) {
