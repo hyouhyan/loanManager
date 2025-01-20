@@ -11,9 +11,9 @@ import (
 )
 
 type HogeHandler struct{}
-type FugaHandler struct{}
+type ShowUserHandler struct{}
 
-func (h *HogeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *ShowUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	DbConnection, err := sql.Open("sqlite3", "./loanManager.db")
 	if err != nil {
 		log.Fatal(err)
@@ -37,8 +37,8 @@ func (h *HogeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *FugaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "fuga")
+func (h *HogeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "hoge")
 }
 
 type User struct {
@@ -48,9 +48,23 @@ type User struct {
 	password string
 }
 
+type CoUser struct {
+	id       int
+	name     string
+	parentId int
+}
+
+type Loan struct {
+	id         int
+	debtorId   int
+	creditorId int
+	amount     int
+	name       string
+}
+
 func main() {
 	hoge := HogeHandler{}
-	fuga := FugaHandler{}
+	showuser := ShowUserHandler{}
 
 	server := http.Server{
 		Addr:    ":8080",
@@ -58,8 +72,9 @@ func main() {
 	}
 
 	// DefaultServeMux にハンドラを付与
+	http.Handle("/show/user", &showuser)
 	http.Handle("/hoge", &hoge)
-	http.Handle("/fuga", &fuga)
 
+	fmt.Println("Listening on http://localhost:8080")
 	server.ListenAndServe()
 }
