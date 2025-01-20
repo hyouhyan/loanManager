@@ -28,9 +28,11 @@ CREATE TABLE "coUser" (
 CREATE TABLE "loan" (
 	"id"	INTEGER NOT NULL UNIQUE,
 	"debtorId"	INTEGER NOT NULL,
+	"debtorIsCo"	INTEGER NOT NULL,
 	"creditorId"	INTEGER NOT NULL,
+	"creditorIsCo"	INTEGER NOT NULL,
 	"amount"	INTEGER NOT NULL,
 	"name"	TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)
-)
+);
 ```
