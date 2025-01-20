@@ -7,8 +7,6 @@ import (
 	"net/http"
 
 	"log"
-
-	_ "github.com/mattn/go-sqlite3"
 )
 
 func ShowUser(w http.ResponseWriter, r *http.Request) {
@@ -57,10 +55,6 @@ func ShowCoUser(w http.ResponseWriter, r *http.Request) {
 	for _, p := range pp {
 		fmt.Fprintln(w, p.id, p.name, p.parentId)
 	}
-}
-
-func Hoge(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "hoge")
 }
 
 type RequestBody struct {

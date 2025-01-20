@@ -28,6 +28,10 @@ type Loan struct {
 	name       string
 }
 
+func Hoge(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "hoge")
+}
+
 func main() {
 	server := http.Server{
 		Addr:    ":8080",
