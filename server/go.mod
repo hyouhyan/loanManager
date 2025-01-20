@@ -1,4 +1,4 @@
-module sqlite
+module github.com/hyouhyan/loanManager
 
 go 1.23.3
 
