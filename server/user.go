@@ -14,6 +14,7 @@ func ShowUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Panic(err)
 	}
+	defer DbConnection.Close()
 
 	cmd := "SELECT * FROM user"
 	rows, _ := DbConnection.Query(cmd)
@@ -38,6 +39,7 @@ func ShowCoUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Panic(err)
 	}
+	defer DbConnection.Close()
 
 	cmd := "SELECT * FROM coUser"
 	rows, _ := DbConnection.Query(cmd)
@@ -87,6 +89,7 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Panic(err)
 	}
+	defer DbConnection.Close()
 
 	cmd := "INSERT INTO user (name, email, password) VALUES (?, ?, ?)"
 	_, err = DbConnection.Exec(cmd, requestBody.Name, requestBody.Email, requestBody.Password)
@@ -128,6 +131,7 @@ func AddCoUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Panic(err)
 	}
+	defer DbConnection.Close()
 
 	cmd := "INSERT INTO coUser (name, parentId) VALUES (?, ?)"
 	_, err = DbConnection.Exec(cmd, requestBody.Name, requestBody.ParentId)
@@ -169,6 +173,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Panic(err)
 	}
+	defer DbConnection.Close()
 
 	cmd := "DELETE FROM user WHERE email = ? AND password = ?"
 	_, err = DbConnection.Exec(cmd, requestBody.Email, requestBody.Password)
@@ -211,6 +216,7 @@ func DeleteCoUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Panic(err)
 	}
+	defer DbConnection.Close()
 
 	// email と password が一致するか確認
 	cmd := "SELECT * FROM user WHERE email = ? AND password = ?"
@@ -220,6 +226,7 @@ func DeleteCoUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "email または password が違います", http.StatusBadRequest)
 		return
 	}
+	defer rows.Close()
 	// ユーザーの id を取得
 	var user User
 	err = rows.Scan(&user.id, &user.name, &user.email, &user.password)
@@ -238,6 +245,7 @@ func DeleteCoUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Coユーザーが存在しません", http.StatusBadRequest)
 		return
 	}
+	defer rows.Close()
 	// CoUser の親 id が一致するか確認
 	var couser CoUser
 	err = rows.Scan(&couser.id, &couser.name, &couser.parentId)
