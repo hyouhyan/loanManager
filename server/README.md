@@ -50,6 +50,7 @@
 	}
 	```
 - /loan/rent  
+	```
 	{
 		"email":"mail@test.org",
 		"password":"pass",
@@ -58,6 +59,7 @@
 		"amount":100,
 		"name":"ジュース代"
 	}
+	```
 - /loan/delete  
 	```
 	{
