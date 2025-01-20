@@ -57,7 +57,7 @@ func ShowCoUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type RequestBody struct {
+type RequestBodyNewUser struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -70,7 +70,7 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// リクエストボディの読み取り
-	var requestBody RequestBody
+	var requestBody RequestBodyNewUser
 	err := json.NewDecoder(r.Body).Decode(&requestBody)
 	if err != nil {
 		http.Error(w, "リクエストの解析に失敗しました", http.StatusBadRequest)
@@ -97,4 +97,45 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Error(w, "ユーザーを追加しました", http.StatusOK)
+}
+
+type RequestBodyNewCoUser struct {
+	Name     string `json:"name"`
+	ParentId int    `json:"parentId"`
+}
+
+func AddCoUser(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "POSTメソッドのみ受け付けています", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// リクエストボディの読み取り
+	var requestBody RequestBodyNewCoUser
+	err := json.NewDecoder(r.Body).Decode(&requestBody)
+	if err != nil {
+		http.Error(w, "リクエストの解析に失敗しました", http.StatusBadRequest)
+		return
+	}
+
+	// データ検証
+	if requestBody.Name == "" || requestBody.ParentId == 0 {
+		http.Error(w, "なんか足りません", http.StatusBadRequest)
+		return
+	}
+
+	DbConnection, err := sql.Open("sqlite3", "./loanManager.db")
+	if err != nil {
+		log.Panic(err)
+	}
+
+	cmd := "INSERT INTO coUser (name, parentId) VALUES (?, ?)"
+	_, err = DbConnection.Exec(cmd, requestBody.Name, requestBody.ParentId)
+	if err != nil {
+		http.Error(w, "なんかエラーです", http.StatusBadRequest)
+		fmt.Println(err)
+		return
+	}
+
+	http.Error(w, "Coユーザーを追加しました", http.StatusOK)
 }

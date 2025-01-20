@@ -44,6 +44,7 @@ func main() {
 	http.HandleFunc("/hoge", Hoge)
 
 	http.HandleFunc("/user/add", AddUser)
+	http.HandleFunc("/co-user/add", AddCoUser)
 
 	fmt.Println("Listening on http://localhost:8080")
 	server.ListenAndServe()
