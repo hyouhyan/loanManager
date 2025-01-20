@@ -11,10 +11,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type HogeHandler struct{}
-type ShowUserHandler struct{}
-
-func (h *ShowUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func ShowUser(w http.ResponseWriter, r *http.Request) {
 	DbConnection, err := sql.Open("sqlite3", "./loanManager.db")
 	if err != nil {
 		log.Panic(err)
@@ -38,9 +35,7 @@ func (h *ShowUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type ShowCoUserHandler struct{}
-
-func (h *ShowCoUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func ShowCoUser(w http.ResponseWriter, r *http.Request) {
 	DbConnection, err := sql.Open("sqlite3", "./loanManager.db")
 	if err != nil {
 		log.Panic(err)
@@ -64,7 +59,7 @@ func (h *ShowCoUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *HogeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func Hoge(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "hoge")
 }
 
@@ -74,9 +69,7 @@ type RequestBody struct {
 	Password string `json:"password"`
 }
 
-type UserAddHandler struct{}
-
-func (h *UserAddHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func AddUser(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "POSTメソッドのみ受け付けています", http.StatusMethodNotAllowed)
 		return
@@ -108,6 +101,8 @@ func (h *UserAddHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
+
+	http.Error(w, "ユーザーを追加しました", http.StatusOK)
 }
 
 type User struct {
@@ -132,22 +127,17 @@ type Loan struct {
 }
 
 func main() {
-	hoge := HogeHandler{}
-	showuser := ShowUserHandler{}
-	showcouser := ShowCoUserHandler{}
-	useradd := UserAddHandler{}
-
 	server := http.Server{
 		Addr:    ":8080",
 		Handler: nil, // DefaultServeMux を使用
 	}
 
 	// DefaultServeMux にハンドラを付与
-	http.Handle("/show/user", &showuser)
-	http.Handle("/show/co-user", &showcouser)
-	http.Handle("/hoge", &hoge)
+	http.HandleFunc("/show/user", ShowUser)
+	http.HandleFunc("/show/co-user", ShowCoUser)
+	http.HandleFunc("/hoge", Hoge)
 
-	http.Handle("/user/add", &useradd)
+	http.HandleFunc("/user/add", AddUser)
 
 	fmt.Println("Listening on http://localhost:8080")
 	server.ListenAndServe()
