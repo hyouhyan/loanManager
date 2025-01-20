@@ -1,3 +1,5 @@
+# loanManager Backend
+
 ## DB構成
 
 ### テーブルuser
@@ -11,9 +13,9 @@ CREATE TABLE "user" (
 )
 ```
 
-### テーブルco-user
+### テーブルcoUser
 ```
-CREATE TABLE "co-user" (
+CREATE TABLE "coUser" (
 	"id"	INTEGER NOT NULL UNIQUE,
 	"name"	TEXT NOT NULL,
 	"parentId"	INTEGER NOT NULL,

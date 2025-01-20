@@ -26,7 +26,7 @@ func (h *ShowUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var pp []User
 	for rows.Next() {
 		var p User
-		err := rows.Scan(&p.id, &p.name, &p.email, &p.password) //アドレスを引数に渡すろstructにデータを入れてくれる
+		err := rows.Scan(&p.id, &p.name, &p.email, &p.password)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -34,6 +34,32 @@ func (h *ShowUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	for _, p := range pp {
 		fmt.Fprintln(w, p.id, p.name, p.email, p.password)
+	}
+}
+
+type ShowCoUserHandler struct{}
+
+func (h *ShowCoUserHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	DbConnection, err := sql.Open("sqlite3", "./loanManager.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	cmd := "SELECT * FROM coUser"
+	rows, _ := DbConnection.Query(cmd)
+	defer rows.Close()
+
+	var pp []CoUser
+	for rows.Next() {
+		var p CoUser
+		err := rows.Scan(&p.id, &p.name, &p.parentId)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		pp = append(pp, p)
+	}
+	for _, p := range pp {
+		fmt.Fprintln(w, p.id, p.name, p.parentId)
 	}
 }
 
@@ -65,6 +91,7 @@ type Loan struct {
 func main() {
 	hoge := HogeHandler{}
 	showuser := ShowUserHandler{}
+	showcouser := ShowCoUserHandler{}
 
 	server := http.Server{
 		Addr:    ":8080",
@@ -73,6 +100,7 @@ func main() {
 
 	// DefaultServeMux にハンドラを付与
 	http.Handle("/show/user", &showuser)
+	http.Handle("/show/co-user", &showcouser)
 	http.Handle("/hoge", &hoge)
 
 	fmt.Println("Listening on http://localhost:8080")
