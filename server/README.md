@@ -1,5 +1,72 @@
 # loanManager Backend
 
+## 仕様
+
+### user
+
+- /user/add  
+	```
+	{
+		"name":"name",
+		"email":"mail@test.org",
+		"password":"pass"
+	}
+	```
+- /user/delete  
+	```
+	{
+		"email":"mail@test.org",
+		"password":"pass"
+	}
+	```
+
+### co-user
+- /co-user/add  
+	```
+	{
+		"name":"name",
+		"parentId":2
+	}
+	```
+- /co-user/delete  
+	```
+	{
+		"email":"mail@test.org",
+		"password":"pass",
+		"id":7
+	}
+	```
+
+### loan
+- /loan/borrow  
+	```
+	{
+		"email":"mail@test.org",
+		"password":"pass",
+		"creditorId":2,
+		"creditorIsCo":false,
+		"amount":100,
+		"name":"ジュース代"
+	}
+	```
+- /loan/rent  
+	{
+		"email":"mail@test.org",
+		"password":"pass",
+		"debtorId":3,
+		"debtorIsCo":false,
+		"amount":100,
+		"name":"ジュース代"
+	}
+- /loan/delete  
+	```
+	{
+		"email":"mail@test.org",
+		"password":"pass",
+		"loanId":6
+	}
+	```
+
 ## DB構成
 
 ### テーブルuser
