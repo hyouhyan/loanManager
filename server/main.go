@@ -43,6 +43,7 @@ func main() {
 	// DefaultServeMux にハンドラを付与
 	http.HandleFunc("/show/user", ShowUser)
 	http.HandleFunc("/show/co-user", ShowCoUser)
+	http.HandleFunc("/show/loan", ShowLoan)
 	http.HandleFunc("/hoge", Hoge)
 
 	http.HandleFunc("/user/add", AddUser)
