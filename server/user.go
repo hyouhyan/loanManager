@@ -139,3 +139,44 @@ func AddCoUser(w http.ResponseWriter, r *http.Request) {
 
 	http.Error(w, "Coユーザーを追加しました", http.StatusOK)
 }
+
+type RequestBodyDeleteUser struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "POSTメソッドのみ受け付けています", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// リクエストボディの読み取り
+	var requestBody RequestBodyDeleteUser
+	err := json.NewDecoder(r.Body).Decode(&requestBody)
+	if err != nil {
+		http.Error(w, "リクエストの解析に失敗しました", http.StatusBadRequest)
+		return
+	}
+
+	// データ検証
+	if requestBody.Email == "" || requestBody.Password == "" {
+		http.Error(w, "なんか足りません", http.StatusBadRequest)
+		return
+	}
+
+	DbConnection, err := sql.Open("sqlite3", "./loanManager.db")
+	if err != nil {
+		log.Panic(err)
+	}
+
+	cmd := "DELETE FROM user WHERE email = ? AND password = ?"
+	_, err = DbConnection.Exec(cmd, requestBody.Email, requestBody.Password)
+	if err != nil {
+		http.Error(w, "なんかエラーです", http.StatusBadRequest)
+		fmt.Println(err)
+		return
+	}
+
+	http.Error(w, "ユーザーを削除しました", http.StatusOK)
+}
