@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -31,4 +32,57 @@ func ShowLoan(w http.ResponseWriter, r *http.Request) {
 	for _, p := range pp {
 		fmt.Fprintln(w, p.id, p.debtorId, p.debtorIsCo, p.creditorId, p.creditorIsCo, p.amount, p.name)
 	}
+}
+
+// 誰かからお金を借りる
+type RequestBodyBorrow struct {
+	Email        string `json:"email"`
+	Password     string `json:"password"`
+	CreditorId   int    `json:"creditorId"`
+	CreditorIsCo bool   `json:"creditorIsCo"`
+	Amount       int    `json:"amount"`
+	Name         string `json:"name"`
+}
+
+func Borrow(w http.ResponseWriter, r *http.Request) {
+	DbConnection, err := sql.Open("sqlite3", "./loanManager.db")
+	if err != nil {
+		log.Panic(err)
+	}
+	defer DbConnection.Close()
+
+	// リクエストボディをパース
+	decoder := json.NewDecoder(r.Body)
+	var req RequestBodyBorrow
+	err = decoder.Decode(&req)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	// ユーザー認証
+	cmd := "SELECT * FROM user WHERE email = ? AND password = ?"
+	rows, _ := DbConnection.Query(cmd, req.Email, req.Password)
+	defer rows.Close()
+
+	if !rows.Next() {
+		http.Error(w, "EmailかPasswordが違います", http.StatusUnauthorized)
+		return
+	}
+
+	// 自分の情報を取得
+	var user User
+	err = rows.Scan(&user.id, &user.name, &user.email, &user.password)
+	if err != nil {
+		log.Panic(err)
+	}
+	rows.Close()
+
+	// お金を借りる
+	cmd = "INSERT INTO loan (debtorId, debtorIsCo, creditorId, creditorIsCo, amount, name) VALUES (?, ?, ?, ?, ?, ?)"
+	_, err = DbConnection.Exec(cmd, user.id, false, req.CreditorId, req.CreditorIsCo, req.Amount, req.Name)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	fmt.Fprintln(w, "Borrowed successfully")
 }

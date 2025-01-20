@@ -51,6 +51,8 @@ func main() {
 	http.HandleFunc("/co-user/add", AddCoUser)
 	http.HandleFunc("/co-user/delete", DeleteCoUser)
 
+	http.HandleFunc("/loan/borrow", Borrow)
+
 	fmt.Println("Listening on http://localhost:8080")
 	server.ListenAndServe()
 }
