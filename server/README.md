@@ -7,7 +7,7 @@
 CREATE TABLE "user" (
 	"id"	INTEGER NOT NULL UNIQUE,
 	"name"	TEXT NOT NULL,
-	"email"	TEXT NOT NULL,
+	"email"	TEXT NOT NULL UNIQUE,
 	"password"	TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)
 )
