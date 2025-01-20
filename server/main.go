@@ -53,6 +53,7 @@ func main() {
 
 	http.HandleFunc("/loan/borrow", Borrow)
 	http.HandleFunc("/loan/rent", Rent)
+	http.HandleFunc("/loan/delete", DeleteLoan)
 
 	fmt.Println("Listening on http://localhost:8080")
 	server.ListenAndServe()
