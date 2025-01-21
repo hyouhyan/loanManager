@@ -1,7 +1,7 @@
 <?php
 try {
     // データベース接続
-    $db = new PDO('sqlite:./db/database.sqlite');
+    $db = new PDO('sqlite:database.sqlite');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // ユーザーテーブル
@@ -13,17 +13,18 @@ try {
         )
     ");
 
-    // 連絡先テーブル
+    // 連絡先テーブル（ownerカラム追加）
     $db->exec("
         CREATE TABLE IF NOT EXISTS contacts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             name TEXT NOT NULL,
+            owner INTEGER NOT NULL,  -- オーナーのID
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         )
     ");
 
-    // トランザクションテーブル
+    // トランザクションテーブル（ownerカラム追加）
     $db->exec("
         CREATE TABLE IF NOT EXISTS transactions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,6 +33,7 @@ try {
             description TEXT NOT NULL,
             amount REAL NOT NULL,
             date TEXT NOT NULL,
+            owner INTEGER NOT NULL,  -- オーナーのID
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
             FOREIGN KEY (contact_id) REFERENCES contacts (id) ON DELETE CASCADE
         )

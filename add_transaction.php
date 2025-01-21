@@ -11,8 +11,8 @@ if (!isset($_SESSION['user_id'])) {
 $userId = $_SESSION['user_id'];
 
 // 全ての連絡先を取得
-$stmt = $db->prepare("SELECT id, name FROM contacts WHERE user_id = ?");
-$stmt->execute([$userId]);
+$stmt = $db->prepare("SELECT id, name FROM contacts WHERE user_id = ? AND owner = ?");
+$stmt->execute([$userId, $userId]);
 $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = !empty($_POST['description']) ? $_POST['description'] : 'No description';  // デフォルト値
     $date = date('Y-m-d H:i:s');
 
-    $stmt = $db->prepare("INSERT INTO transactions (user_id, contact_id, description, amount, date) VALUES (?, ?, ?, ?, ?)");
-    $stmt->execute([$userId, $contactId, $description, $amount, $date]);
+    $stmt = $db->prepare("INSERT INTO transactions (user_id, contact_id, description, amount, date, owner) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$userId, $contactId, $description, $amount, $date, $userId]);
 
     header('Location: index.php');
     exit;

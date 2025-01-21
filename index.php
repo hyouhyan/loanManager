@@ -10,14 +10,15 @@ if (!isset($_SESSION['user_id'])) {
 
 $userId = $_SESSION['user_id'];
 
-// ユーザーごとの貸し借り情報を取得
+// ユーザーが所有する連絡先を取得
 $stmt = $db->prepare("
     SELECT c.id, c.name, SUM(t.amount) AS balance
     FROM contacts c
     LEFT JOIN transactions t ON c.id = t.contact_id AND t.user_id = ?
+    WHERE c.owner = ?
     GROUP BY c.id
 ");
-$stmt->execute([$userId]);
+$stmt->execute([$userId, $userId]);
 $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
@@ -44,17 +45,20 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?= htmlspecialchars($balance['name']) ?>
                     </a>
                 </td>
-                <td><?= htmlspecialchars($balance['balance']) ?></td>
+                <td>
+                    <?= htmlspecialchars($balance['balance'] ?? 0) ?>
+                </td>
+
 
                 <?php
                 // 最新の取引内容を取得
                 $stmt = $db->prepare("
                     SELECT description, amount, date
                     FROM transactions
-                    WHERE contact_id = ? AND user_id = ?
+                    WHERE contact_id = ? AND user_id = ? AND owner = ?
                     ORDER BY date DESC LIMIT 1
                 ");
-                $stmt->execute([$balance['id'], $userId]);
+                $stmt->execute([$balance['id'], $userId, $userId]);
                 $latestTransaction = $stmt->fetch(PDO::FETCH_ASSOC);
                 ?>
                 <td>

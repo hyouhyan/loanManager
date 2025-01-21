@@ -8,13 +8,16 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+$userId = $_SESSION['user_id'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'];
-    $userId = $_SESSION['user_id'];
+    $contactName = $_POST['name'];
 
-    $stmt = $db->prepare("INSERT INTO contacts (user_id, name) VALUES (?, ?)");
-    $stmt->execute([$userId, $name]);
+    // 連絡先をデータベースに追加
+    $stmt = $db->prepare("INSERT INTO contacts (user_id, name, owner) VALUES (?, ?, ?)");
+    $stmt->execute([$userId, $contactName, $userId]);
 
+    // 成功後、index.phpにリダイレクト
     header('Location: index.php');
     exit;
 }
@@ -27,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="text" name="name" class="form-control" required>
     </div>
     <div class="text-end">
-        <button type="submit" class="btn btn-success">Add</button>
+        <button type="submit" class="btn btn-primary">Add Contact</button>
     </div>
 </form>
 
