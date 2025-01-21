@@ -50,7 +50,7 @@ $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($transactions as $transaction): ?>
             <tr>
                 <td><?= htmlspecialchars($transaction['description']) ?></td>
-                <td><?= htmlspecialchars($transaction['amount']) ?></td>
+                <td class="<?= $transaction['amount'] < 0 ? 'bg-light-red' : 'bg-light-green' ?>"><?= htmlspecialchars($transaction['amount']) ?></td>
                 <td><?= htmlspecialchars($transaction['date']) ?></td>
             </tr>
         <?php endforeach; ?>

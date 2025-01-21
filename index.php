@@ -45,9 +45,13 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?= htmlspecialchars($balance['name']) ?>
                     </a>
                 </td>
-                <td>
-                    <?= htmlspecialchars($balance['balance'] ?? 0) ?>
-                </td>
+                <?php if (htmlspecialchars($balance['balance'] ?? 0) < 0): ?>
+                    <td class="bg-light-red"><?= htmlspecialchars($balance['balance'] ?? 0) ?> 円</td>  <!-- 負の金額は赤 -->
+                <?php elseif (htmlspecialchars($balance['balance'] ?? 0) > 0): ?>
+                    <td class="bg-light-green"><?= htmlspecialchars($balance['balance'] ?? 0) ?> 円</td>  <!-- 正の金額は緑 -->
+                <?php else: ?>
+                    <td><?= htmlspecialchars($balance['balance'] ?? 0) ?> 円</td>  <!-- 0円の場合はそのまま表示 -->
+                <?php endif; ?>
 
 
                 <?php
