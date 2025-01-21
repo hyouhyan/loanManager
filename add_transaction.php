@@ -59,12 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     
     <div class="mb-3">
-        <label for="transaction_type" class="form-label">Transaction Type</label><br>
-        <button type="button" id="lend-btn" class="btn btn-success" onclick="selectTransaction('lend')">Lend</button>
-        <button type="button" id="borrow-btn" class="btn btn-danger" onclick="selectTransaction('borrow')">Borrow</button>
-    </div>
-    
-    <div class="mb-3">
         <label for="amount" class="form-label">Amount</label>
         <input type="number" step="0.01" name="amount" class="form-control" required>
         <small class="text-muted">Enter the amount to lend or borrow. The amount will be positive for lending and negative for borrowing.</small>
@@ -75,44 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="text" name="description" class="form-control" required>
     </div>
 
-    <div class="text-end">
-        <button type="submit" class="btn btn-primary" name="transaction_type" id="transaction-type-submit" disabled>Add Transaction</button>
+    <div class="mb-3 text-end">
+        <button type="submit" name="transaction_type" value="lend" class="btn btn-success">Lend</button>
+        <button type="submit" name="transaction_type" value="borrow" class="btn btn-danger">Borrow</button>
     </div>
 </form>
-
-<script>
-    let transactionType = '';  // 'lend' または 'borrow' を格納
-
-    function selectTransaction(type) {
-        transactionType = type;
-
-        // ボタンの色を変更
-        if (transactionType === 'lend') {
-            document.getElementById('lend-btn').classList.add('active');
-            document.getElementById('borrow-btn').classList.remove('active');
-        } else {
-            document.getElementById('borrow-btn').classList.add('active');
-            document.getElementById('lend-btn').classList.remove('active');
-        }
-
-        // フォーム送信ボタンの有効化
-        document.getElementById('transaction-type-submit').disabled = false;
-        // 隠しフィールドに選択された取引タイプをセット
-        document.getElementById('transaction-type-submit').setAttribute('name', 'transaction_type');
-    }
-
-    // 初期のボタンの色を設定（ボタンが初期状態では非アクティブで薄い色になる）
-    document.getElementById('lend-btn').classList.add('inactive');
-    document.getElementById('borrow-btn').classList.add('inactive');
-</script>
-
-<style>
-    .inactive {
-        opacity: 0.5;
-    }
-    .active {
-        opacity: 1;
-    }
-</style>
 
 <?php require 'footer.php'; ?>
