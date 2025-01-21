@@ -1,7 +1,7 @@
 <?php
 try {
     // データベース接続
-    $db = new PDO('sqlite:database.sqlite');
+    $db = new PDO('sqlite:./db/database.sqlite');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // ユーザーテーブル

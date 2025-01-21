@@ -18,10 +18,11 @@ $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contactId = $_POST['contact_id'];
     $amount = $_POST['amount'];
+    $description = !empty($_POST['description']) ? $_POST['description'] : 'No description';  // デフォルト値
     $date = date('Y-m-d H:i:s');
 
-    $stmt = $db->prepare("INSERT INTO transactions (user_id, contact_id, amount, date) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$userId, $contactId, $amount, $date]);
+    $stmt = $db->prepare("INSERT INTO transactions (user_id, contact_id, description, amount, date) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$userId, $contactId, $description, $amount, $date]);
 
     header('Location: index.php');
     exit;
@@ -54,6 +55,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" class="btn btn-success">Add Transaction</button>
     </div>
 </form>
-
 
 <?php require 'footer.php'; ?>
