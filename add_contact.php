@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'database.php';
+require 'header.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -19,17 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Contact</title>
-</head>
-<body>
-    <h1>Add Contact</h1>
-    <form method="POST">
-        <label for="name">Contact Name:</label>
-        <input type="text" name="name" required>
-        <button type="submit">Add</button>
-    </form>
-</body>
-</html>
+<h1 class="text-center">Add Contact</h1>
+<form method="POST" class="w-50 mx-auto">
+    <div class="mb-3">
+        <label for="name" class="form-label">Contact Name</label>
+        <input type="text" name="name" class="form-control" required>
+    </div>
+    <div class="text-end">
+        <button type="submit" class="btn btn-success">Add</button>
+    </div>
+</form>
+
+<?php require 'footer.php'; ?>

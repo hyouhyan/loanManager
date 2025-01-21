@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'database.php';
+require 'header.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -21,28 +22,31 @@ $stmt->execute([$userId]);
 $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Money Manager</title>
-</head>
-<body>
-    <h1>Balance Summary</h1>
-    <table>
-        <thead>
+<h1 class="text-center">Balance Summary</h1>
+<div class="text-end mb-3">
+    <a href="add_transaction.php" class="btn btn-primary">Add Transaction</a>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Contact</th>
+            <th>Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($balances as $balance): ?>
             <tr>
-                <th>Contact</th>
-                <th>Balance</th>
+                <td>
+                    <a href="contact_transactions.php?contact_id=<?= htmlspecialchars($balance['id']) ?>">
+                        <?= htmlspecialchars($balance['name']) ?>
+                    </a>
+                </td>
+                <td><?= htmlspecialchars($balance['balance']) ?></td>
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($balances as $balance): ?>
-                <tr>
-                    <td><?= htmlspecialchars($balance['name']) ?></td>
-                    <td><?= htmlspecialchars($balance['balance']) ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</body>
-</html>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+
+
+<?php require 'footer.php'; ?>

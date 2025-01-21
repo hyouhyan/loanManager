@@ -1,49 +1,59 @@
 <?php
+session_start();
 require 'database.php';
+require 'header.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$userId = $_SESSION['user_id'];
+
+// 全ての連絡先を取得
+$stmt = $db->prepare("SELECT id, name FROM contacts WHERE user_id = ?");
+$stmt->execute([$userId]);
+$contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $lender = $_POST['lender'];
-    $borrower = $_POST['borrower'];
+    $contactId = $_POST['contact_id'];
     $amount = $_POST['amount'];
-    $date = date('Y-m-d');
+    $date = date('Y-m-d H:i:s');
 
-    $stmt = $db->prepare("INSERT INTO transactions (lender, borrower, amount, date) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$lender, $borrower, $amount, $date]);
+    $stmt = $db->prepare("INSERT INTO transactions (user_id, contact_id, amount, date) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$userId, $contactId, $amount, $date]);
 
     header('Location: index.php');
     exit;
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <title>Add Transaction</title>
-</head>
-<body>
-<div class="container mt-5">
-    <h1 class="text-center">Add Transaction</h1>
-    <form method="POST" action="add_transaction.php">
-        <div class="mb-3">
-            <label for="lender" class="form-label">Lender</label>
-            <input type="text" id="lender" name="lender" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="borrower" class="form-label">Borrower</label>
-            <input type="text" id="borrower" name="borrower" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="amount" class="form-label">Amount</label>
-            <input type="number" step="0.01" id="amount" name="amount" class="form-control" required>
-        </div>
-        <div class="text-end">
-            <button type="submit" class="btn btn-success">Add</button>
-            <a href="index.php" class="btn btn-secondary">Cancel</a>
-        </div>
-    </form>
-</div>
-</body>
-</html>
+<h1 class="text-center">Add Transaction</h1>
+<form method="POST" class="w-50 mx-auto">
+    <div class="mb-3">
+        <label for="contact_id" class="form-label">Select Contact</label>
+        <select name="contact_id" class="form-select" required>
+            <option value="" disabled selected>Select a contact</option>
+            <?php foreach ($contacts as $contact): ?>
+                <option value="<?= htmlspecialchars($contact['id']) ?>">
+                    <?= htmlspecialchars($contact['name']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" name="description" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="amount" class="form-label">Amount</label>
+        <input type="number" step="0.01" name="amount" class="form-control" required>
+        <small class="text-muted">Enter a positive amount if you lent money, or a negative amount if you borrowed money.</small>
+    </div>
+    <div class="text-end">
+        <button type="submit" class="btn btn-success">Add Transaction</button>
+    </div>
+</form>
+
+
+<?php require 'footer.php'; ?>
