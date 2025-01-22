@@ -73,7 +73,10 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endif; ?>
                 </td>
                 <td>
-                    <a href="share_contact.php?contact_id=<?= $balance['id'] ?>" class="btn btn-secondary">Share</a>
+                    <a href="share_contact.php?contact_id=<?= $balance['id'] ?>">
+                        <i class="bi bi-share-fill"></i>
+                        Share
+                    </a>
                 </td>
             </tr>
         <?php endforeach; ?>

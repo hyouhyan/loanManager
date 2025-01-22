@@ -6,3 +6,8 @@
 .bg-light-green {
     background-color: #d4edda !important;
 }
+
+a{
+    text-decoration: none;
+    cursor:pointer;
+}
