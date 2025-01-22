@@ -43,6 +43,8 @@ $stmt = $db->prepare("
 ");
 $stmt->execute([$contact['id']]);
 $totalBalance = $stmt->fetchColumn();
+
+$totalBalance=-1*$totalBalance;
 ?>
 
 <div class="container mt-5">
@@ -69,8 +71,8 @@ $totalBalance = $stmt->fetchColumn();
             <?php foreach ($transactions as $transaction): ?>
                 <tr>
                     <td><?= htmlspecialchars($transaction['description']) ?></td>
-                    <td class="<?= $transaction['amount'] < 0 ? 'table-danger' : 'table-success' ?>">
-                        <?= htmlspecialchars($transaction['amount']) ?>
+                    <td class="<?= $transaction['amount']*-1 < 0 ? 'table-danger' : 'table-success' ?>">
+                        <?= htmlspecialchars($transaction['amount']*-1) ?>
                     </td>
                     <td><?= htmlspecialchars($transaction['date']) ?></td>
                 </tr>
