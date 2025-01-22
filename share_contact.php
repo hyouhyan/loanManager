@@ -32,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['regenerate'])) {
     $stmt = $db->prepare("UPDATE contacts SET share_code = ? WHERE id = ?");
     $stmt->execute([$newShareCode, $contactId]);
     $contact['share_code'] = $newShareCode; // 更新されたコードを反映
+    // 再生成後に共有URLを再表示
+    $shareCode = $newShareCode;
 }
 
 // 共有URLを表示
