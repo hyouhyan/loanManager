@@ -23,14 +23,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h1 class="text-center">Add Contact</h1>
+<h1 class="text-center">取引先追加</h1>
 <form method="POST" class="w-50 mx-auto">
     <div class="mb-3">
-        <label for="name" class="form-label">Contact Name</label>
+        <label for="name" class="form-label">名前</label>
         <input type="text" name="name" class="form-control" required>
     </div>
     <div class="text-end">
-        <button type="submit" class="btn btn-primary">Add Contact</button>
+        <button type="submit" class="btn btn-primary">追加</button>
     </div>
 </form>
 

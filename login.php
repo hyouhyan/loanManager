@@ -21,19 +21,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h1 class="text-center">Login</h1>
+<h1 class="text-center">ログイン</h1>
 <?php if (!empty($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
 <form method="POST" class="w-50 mx-auto">
     <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
+        <label for="username" class="form-label">ユーザーネーム</label>
         <input type="text" name="username" class="form-control" required>
     </div>
     <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
+        <label for="password" class="form-label">パスワード</label>
         <input type="password" name="password" class="form-control" required>
     </div>
     <div class="text-end">
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary">ログイン</button>
     </div>
 </form>
 

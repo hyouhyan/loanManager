@@ -44,7 +44,7 @@ require 'header.php';
 ?>
 
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Share Contact</h1>
+    <h1 class="text-center mb-4">共有リンク生成</h1>
 
     <div class="card shadow-sm">
         <div class="card-body text-center">

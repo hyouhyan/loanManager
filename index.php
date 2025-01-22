@@ -23,18 +23,18 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-<h1 class="text-center">Balance Summary</h1>
+<h1 class="text-center">借金一覧</h1>
 
 <div class="text-end mb-3">
-    <a href="add_transaction.php" class="btn btn-primary">Add Transaction</a>
+    <a href="add_transaction.php" class="btn btn-primary">借金追加</a>
 </div>
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Contact</th>
-            <th>Balance</th>
-            <th>Latest Transaction</th>
+            <th>取引先</th>
+            <th>貸借総額</th>
+            <th>最終取引</th>
         </tr>
     </thead>
     <tbody>
@@ -67,7 +67,7 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 ?>
                 <td>
                     <?php if ($latestTransaction): ?>
-                        <?= htmlspecialchars($latestTransaction['description']) ?> (<?= htmlspecialchars($latestTransaction['amount']) ?>) on <?= htmlspecialchars($latestTransaction['date']) ?>
+                        <?= htmlspecialchars($latestTransaction['description']) ?> (<?= htmlspecialchars($latestTransaction['amount']) ?> 円)
                     <?php else: ?>
                         No transactions
                     <?php endif; ?>
@@ -75,7 +75,7 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <td>
                     <a href="share_contact.php?contact_id=<?= $balance['id'] ?>">
                         <i class="bi bi-share-fill"></i>
-                        Share
+                        共有
                     </a>
                 </td>
             </tr>

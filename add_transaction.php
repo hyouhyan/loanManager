@@ -44,12 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h1 class="text-center">Add Transaction</h1>
+<h1 class="text-center">取引追加</h1>
 <form method="POST" class="w-50 mx-auto">
     <div class="mb-3">
-        <label for="contact_id" class="form-label">Select Contact</label>
+        <label for="contact_id" class="form-label">相手</label>
         <select name="contact_id" class="form-select" required>
-            <option value="" disabled selected>Select a contact</option>
+            <option value="" disabled selected>相手を選択</option>
             <?php foreach ($contacts as $contact): ?>
                 <option value="<?= htmlspecialchars($contact['id']) ?>">
                     <?= htmlspecialchars($contact['name']) ?>
@@ -59,19 +59,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     
     <div class="mb-3">
-        <label for="amount" class="form-label">Amount</label>
+        <label for="amount" class="form-label">金額</label>
         <input type="number" step="0.01" name="amount" class="form-control" required>
-        <small class="text-muted">Enter the amount to lend or borrow. The amount will be positive for lending and negative for borrowing.</small>
     </div>
 
     <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
+        <label for="description" class="form-label">説明</label>
         <input type="text" name="description" class="form-control" required>
     </div>
 
     <div class="mb-3 text-end">
-        <button type="submit" name="transaction_type" value="lend" class="btn btn-success">Lend</button>
-        <button type="submit" name="transaction_type" value="borrow" class="btn btn-danger">Borrow</button>
+        <button type="submit" name="transaction_type" value="lend" class="btn btn-success">貸す</button>
+        <button type="submit" name="transaction_type" value="borrow" class="btn btn-danger">借りる</button>
     </div>
 </form>
 

@@ -49,11 +49,11 @@ $totalBalance=-1*$totalBalance;
 
 <div class="container mt-5">
     <h1 class="text-center">
-        Transactions with <?= htmlspecialchars($owner['username'] ?? 'Unknown') ?>
+        <?= htmlspecialchars($owner['username'] ?? 'Unknown') ?> との取引
     </h1>
     <div class="text-center my-4">
         <h3>
-            Total Balance: 
+            貸借総額: 
             <span class="<?= $totalBalance > 0 ? 'text-success' : ($totalBalance < 0 ? 'text-danger' : '') ?>">
                 <?= htmlspecialchars($totalBalance) ?> 
             </span>円
@@ -62,9 +62,9 @@ $totalBalance=-1*$totalBalance;
     <table class="table table-striped mt-4">
         <thead>
             <tr>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Date</th>
+                <th>説明</th>
+                <th>金額</th>
+                <th>日付</th>
             </tr>
         </thead>
         <tbody>
