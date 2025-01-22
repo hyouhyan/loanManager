@@ -35,9 +35,26 @@ $stmt = $db->prepare("
 ");
 $stmt->execute([$userId, $contactId]);
 $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 貸し借りの総額を計算
+$stmt = $db->prepare("
+    SELECT SUM(amount) AS total_balance
+    FROM transactions
+    WHERE contact_id = ?
+");
+$stmt->execute([$contactId]);
+$totalBalance = $stmt->fetchColumn();
 ?>
 
 <h1 class="text-center">Transactions with <?= htmlspecialchars($contact['name']) ?></h1>
+<div class="text-center my-4">
+        <h3>
+            Total Balance: 
+            <span class="<?= $totalBalance > 0 ? 'text-success' : ($totalBalance < 0 ? 'text-danger' : '') ?>">
+                <?= htmlspecialchars($totalBalance) ?> 
+            </span>円
+        </h3>
+    </div>
 <table class="table table-striped">
     <thead>
         <tr>
