@@ -20,6 +20,7 @@ try {
             user_id INTEGER NOT NULL,
             name TEXT NOT NULL,
             owner INTEGER NOT NULL,  -- オーナーのID
+            share_code TEXT,
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         )
     ");
@@ -41,4 +42,10 @@ try {
 } catch (PDOException $e) {
     echo "Database error: " . $e->getMessage();
     exit;
+}
+
+
+// ランダムコード生成関数
+function generateRandomCode($length = 11) {
+    return strtoupper(substr(bin2hex(random_bytes($length)), 0, $length));
 }

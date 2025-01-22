@@ -72,6 +72,9 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         No transactions
                     <?php endif; ?>
                 </td>
+                <td>
+                    <a href="share_contact.php?contact_id=<?= $balance['id'] ?>" class="btn btn-secondary">Share</a>
+                </td>
             </tr>
         <?php endforeach; ?>
     </tbody>
