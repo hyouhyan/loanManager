@@ -18,6 +18,9 @@ $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // 今日の日付を取得
 $today = date('Y-m-d');
 
+// URLの`contact_id`パラメーターを取得
+$selectedContactId = isset($_GET['contact_id']) ? intval($_GET['contact_id']) : null;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contactId = $_POST['contact_id'];
     $amount = $_POST['amount'];
@@ -51,9 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="mb-3">
         <label for="contact_id" class="form-label">相手</label>
         <select name="contact_id" class="form-select" required>
-            <option value="" disabled selected>相手を選択</option>
+            <option value="" disabled <?= is_null($selectedContactId) ? 'selected' : '' ?>>相手を選択</option>
             <?php foreach ($contacts as $contact): ?>
-                <option value="<?= htmlspecialchars($contact['id']) ?>">
+                <option value="<?= htmlspecialchars($contact['id']) ?>" 
+                    <?= $contact['id'] == $selectedContactId ? 'selected' : '' ?>>
                     <?= htmlspecialchars($contact['name']) ?>
                 </option>
             <?php endforeach; ?>
