@@ -44,25 +44,45 @@ $stmt = $db->prepare("
 ");
 $stmt->execute([$contactId]);
 $totalBalance = $stmt->fetchColumn();
+
+// 完済処理
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clear_balance'])) {
+    $stmt = $db->prepare("
+        INSERT INTO transactions (user_id, contact_id, description, amount, date, owner)
+        VALUES (?, ?, '全額清算', ?, DATE('now'), ?)
+    ");
+    $stmt->execute([$userId, $contactId, -$totalBalance, $userId]);
+
+    header("Location: contact_transaction.php?contact_id=$contactId");
+    exit;
+}
 ?>
 
 <h1 class="text-center"><?= htmlspecialchars($contact['name']) ?> との取引</h1>
 <div class="text-center my-4">
-        <h3>
-            貸借総額: 
-            <span class="<?= $totalBalance > 0 ? 'text-success' : ($totalBalance < 0 ? 'text-danger' : '') ?>">
-                <?= htmlspecialchars($totalBalance) ?> 
-            </span>円
-        </h3>
-        <a class ="btn btn-secondary" href="share_contact.php?contact_id=<?= $contactId ?>">
-            <i class="bi bi-share-fill"></i>
-            共有
-        </a>
-        <a class ="btn btn-secondary" href="edit_contact.php?id=<?= $contactId ?>">
-            <i class="bi bi-pencil-square"></i>
-            編集
-        </a>
-    </div>
+    <h3>
+        貸借総額: 
+        <span class="<?= $totalBalance > 0 ? 'text-success' : ($totalBalance < 0 ? 'text-danger' : '') ?>">
+            <?= htmlspecialchars($totalBalance) ?> 
+        </span>円
+    </h3>
+    <a class="btn btn-secondary" href="share_contact.php?contact_id=<?= $contactId ?>">
+        <i class="bi bi-share-fill"></i>
+        共有
+    </a>
+    <a class="btn btn-secondary" href="edit_contact.php?id=<?= $contactId ?>">
+        <i class="bi bi-pencil-square"></i>
+        編集
+    </a>
+    <!-- 完済ボタン -->
+    <?php if ($totalBalance != 0): ?>
+        <form method="POST" class="d-inline">
+            <button type="submit" name="clear_balance" class="btn btn-danger">
+                <i class="bi bi-x-circle-fill"></i> 全て完済する
+            </button>
+        </form>
+    <?php endif; ?>
+</div>
 <table class="table table-striped">
     <thead>
         <tr>
