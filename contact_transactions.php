@@ -198,7 +198,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
 
 <a href="index.php" class="btn btn-secondary">戻る</a>
 
-<!-- モーダルウィンドウ -->
+<!-- 取引追加ボタン -->
+<a href="add_transaction.php?contact_id=<?= $contactId ?>" class="add-transaction-btn btn btn-primary">
+    <i class="bi bi-plus"></i>
+</a>
+
+<!-- 完済モーダル -->
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -218,5 +223,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
         </div>
     </div>
 </div>
+
+<style>
+.add-transaction-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1030;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.add-transaction-btn i {
+    font-size: 1.5rem;
+}
+</style>
 
 <?php require 'footer.php'; ?>

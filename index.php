@@ -26,7 +26,12 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <h1 class="text-center">借金一覧</h1>
 
 <div class="text-end mb-3">
-    <a href="add_transaction.php" class="btn btn-primary">借金追加</a>
+    <a href="add_contact.php" class="btn btn-primary">
+        <i class="bi bi-person-fill-add"></i> 取引先追加
+    </a>
+    <a href="add_transaction.php" class="btn btn-primary">
+        <i class="bi bi-cash-stack"></i> 借金追加
+    </a>
 </div>
 
 <table class="table table-striped">

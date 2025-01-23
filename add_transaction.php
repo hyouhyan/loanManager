@@ -15,12 +15,14 @@ $stmt = $db->prepare("SELECT id, name FROM contacts WHERE user_id = ?");
 $stmt->execute([$userId]);
 $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$transactionType = '';  // 貸す or 借りる
+// 今日の日付を取得
+$today = date('Y-m-d');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contactId = $_POST['contact_id'];
     $amount = $_POST['amount'];
-    $description = !empty($_POST['description']) ? $_POST['description'] : 'No description';  // デフォルト値
-    $date = date('Y-m-d H:i:s');
+    $description = !empty($_POST['description']) ? $_POST['description'] : 'No description'; // デフォルト値
+    $date = !empty($_POST['date']) ? $_POST['date'] : $today; // 指定された日付または今日の日付を使用
     
     // 金額が正の数かチェック
     if ($amount <= 0) {
@@ -28,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // 取引タイプを設定（貸す/借りる）
         if ($_POST['transaction_type'] === 'lend') {
-            $amount = abs($amount);  // 貸す場合は正の金額
+            $amount = abs($amount); // 貸す場合は正の金額
         } elseif ($_POST['transaction_type'] === 'borrow') {
-            $amount = -abs($amount);  // 借りる場合は負の金額
+            $amount = -abs($amount); // 借りる場合は負の金額
         }
 
         // トランザクションをデータベースに追加
@@ -68,10 +70,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="text" name="description" class="form-control" required>
     </div>
 
+    <div class="mb-3">
+        <label for="date" class="form-label">日付</label>
+        <!-- デフォルトで今日の日付を表示 -->
+        <input type="date" name="date" class="form-control" value="<?= $today ?>" required>
+    </div>
+
     <div class="mb-3 text-end">
         <button type="submit" name="transaction_type" value="lend" class="btn btn-success">貸す</button>
         <button type="submit" name="transaction_type" value="borrow" class="btn btn-danger">借りる</button>
     </div>
+
+    <a href="index.php" class="btn btn-secondary">戻る</a>
 </form>
 
 <?php require 'footer.php'; ?>
