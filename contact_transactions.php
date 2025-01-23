@@ -54,6 +54,14 @@ $totalBalance = $stmt->fetchColumn();
                 <?= htmlspecialchars($totalBalance) ?> 
             </span>円
         </h3>
+        <a class ="btn btn-secondary" href="share_contact.php?contact_id=<?= $contactId ?>">
+            <i class="bi bi-share-fill"></i>
+            共有
+        </a>
+        <a class ="btn btn-secondary" href="edit_contact.php?id=<?= $contactId ?>">
+            <i class="bi bi-pencil-square"></i>
+            編集
+        </a>
     </div>
 <table class="table table-striped">
     <thead>

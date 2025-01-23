@@ -72,16 +72,6 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         No transactions
                     <?php endif; ?>
                 </td>
-                <td>
-                    <a href="share_contact.php?contact_id=<?= $balance['id'] ?>">
-                        <i class="bi bi-share-fill"></i>
-                        共有
-                    </a>
-                    <a href="edit_contact.php?id=<?= $balance['id'] ?>">
-                        <i class="bi bi-pencil-square"></i>
-                        編集
-                    </a>
-                </td>
             </tr>
         <?php endforeach; ?>
     </tbody>
