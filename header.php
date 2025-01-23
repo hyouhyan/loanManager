@@ -16,6 +16,7 @@
                 <ul class="navbar-nav ms-auto">
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li class="nav-item"><a class="nav-link" href="add_contact.php">取引先追加</a></li>
+                        <li class="nav-item"><a class="nav-link" href="edit_userinfo.php">情報編集</a></li>
                         <li class="nav-item"><a class="nav-link" href="logout.php">ログアウト</a></li>
                     <?php else: ?>
                         <li class="nav-item"><a class="nav-link" href="login.php">ログイン</a></li>

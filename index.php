@@ -77,6 +77,10 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <i class="bi bi-share-fill"></i>
                         共有
                     </a>
+                    <a href="edit_contact.php?id=<?= $balance['id'] ?>">
+                        <i class="bi bi-pencil-square"></i>
+                        編集
+                    </a>
                 </td>
             </tr>
         <?php endforeach; ?>
