@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     <div class="mb-3">
         <label for="amount" class="form-label">金額</label>
-        <input type="number" step="0.01" name="amount" class="form-control" required>
+        <input type="number" step="1" name="amount" class="form-control" required>
     </div>
 
     <div class="mb-3">
