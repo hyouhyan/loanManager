@@ -11,8 +11,8 @@ if (!isset($_SESSION['user_id'])) {
 $userId = $_SESSION['user_id'];
 
 // 全ての連絡先を取得
-$stmt = $db->prepare("SELECT id, name FROM contacts WHERE user_id = ? AND owner = ?");
-$stmt->execute([$userId, $userId]);
+$stmt = $db->prepare("SELECT id, name FROM contacts WHERE user_id = ?");
+$stmt->execute([$userId]);
 $contacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $transactionType = '';  // 貸す or 借りる
@@ -34,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // トランザクションをデータベースに追加
-        $stmt = $db->prepare("INSERT INTO transactions (user_id, contact_id, description, amount, date, owner) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$userId, $contactId, $description, $amount, $date, $userId]);
+        $stmt = $db->prepare("INSERT INTO transactions (user_id, contact_id, description, amount, date) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$userId, $contactId, $description, $amount, $date]);
 
         // 成功後、index.phpにリダイレクト
         header('Location: index.php');

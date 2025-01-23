@@ -19,7 +19,6 @@ try {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             name TEXT NOT NULL,
-            owner INTEGER NOT NULL,  -- オーナーのID
             share_code TEXT,
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         )
@@ -34,7 +33,6 @@ try {
             description TEXT NOT NULL,
             amount REAL NOT NULL,
             date TEXT NOT NULL,
-            owner INTEGER NOT NULL,  -- オーナーのID
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
             FOREIGN KEY (contact_id) REFERENCES contacts (id) ON DELETE CASCADE
         )

@@ -20,9 +20,9 @@ if (!$contact) {
     exit;
 }
 
-// owner_id に基づいてオーナー情報を取得
+// user_id に基づいてオーナー情報を取得
 $stmt = $db->prepare("SELECT username FROM users WHERE id = ?");
-$stmt->execute([$contact['owner']]);
+$stmt->execute([$contact['user_id']]);
 $owner = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // 貸し借り一覧を取得

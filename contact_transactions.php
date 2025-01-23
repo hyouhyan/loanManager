@@ -48,12 +48,12 @@ $totalBalance = $stmt->fetchColumn();
 // 完済処理
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clear_balance'])) {
     $stmt = $db->prepare("
-        INSERT INTO transactions (user_id, contact_id, description, amount, date, owner)
-        VALUES (?, ?, '全額清算', ?, DATE('now'), ?)
+        INSERT INTO transactions (user_id, contact_id, description, amount, date)
+        VALUES (?, ?, '全額清算', ?, DATE('now'))
     ");
-    $stmt->execute([$userId, $contactId, -$totalBalance, $userId]);
+    $stmt->execute([$userId, $contactId, -$totalBalance]);
 
-    header("Location: contact_transaction.php?contact_id=$contactId");
+    header("Location: contact_transactions.php?contact_id=$contactId");
     exit;
 }
 ?>

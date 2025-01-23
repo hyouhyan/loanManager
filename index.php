@@ -15,7 +15,7 @@ $stmt = $db->prepare("
     SELECT c.id, c.name, SUM(t.amount) AS balance
     FROM contacts c
     LEFT JOIN transactions t ON c.id = t.contact_id AND t.user_id = ?
-    WHERE c.owner = ?
+    WHERE c.user_id = ?
     GROUP BY c.id
 ");
 $stmt->execute([$userId, $userId]);
@@ -59,10 +59,10 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $stmt = $db->prepare("
                     SELECT description, amount, date
                     FROM transactions
-                    WHERE contact_id = ? AND user_id = ? AND owner = ?
+                    WHERE contact_id = ? AND user_id = ?
                     ORDER BY date DESC LIMIT 1
                 ");
-                $stmt->execute([$balance['id'], $userId, $userId]);
+                $stmt->execute([$balance['id'], $userId]);
                 $latestTransaction = $stmt->fetch(PDO::FETCH_ASSOC);
                 ?>
                 <td>

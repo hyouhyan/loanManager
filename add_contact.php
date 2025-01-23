@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contactName = $_POST['name'];
 
     // 連絡先をデータベースに追加
-    $stmt = $db->prepare("INSERT INTO contacts (user_id, name, owner) VALUES (?, ?, ?)");
-    $stmt->execute([$userId, $contactName, $userId]);
+    $stmt = $db->prepare("INSERT INTO contacts (user_id, name) VALUES (?, ?)");
+    $stmt->execute([$userId, $contactName]);
 
     // 成功後、index.phpにリダイレクト
     header('Location: index.php');
