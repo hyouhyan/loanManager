@@ -76,11 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clear_balance'])) {
     </a>
     <!-- 完済ボタン -->
     <?php if ($totalBalance != 0): ?>
-        <form method="POST" class="d-inline">
-            <button type="submit" name="clear_balance" class="btn btn-danger">
-                <i class="bi bi-x-circle-fill"></i> 全て完済する
-            </button>
-        </form>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">
+            <i class="bi bi-x-circle-fill"></i> 全て完済する
+        </button>
     <?php endif; ?>
 </div>
 <table class="table table-striped">
@@ -103,5 +101,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clear_balance'])) {
 </table>
 
 <a href="index.php" class="btn btn-secondary">戻る</a>
+
+<!-- モーダルウィンドウ -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">確認</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                貸借総額 <strong><?= htmlspecialchars($totalBalance) ?>円</strong> を全て完済しますか？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                <form method="POST" class="d-inline">
+                    <button type="submit" name="clear_balance" class="btn btn-danger">完済する</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php require 'footer.php'; ?>
