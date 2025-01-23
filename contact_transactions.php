@@ -123,36 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
                 <td class="<?= $transaction['amount'] < 0 ? 'bg-light-red' : 'bg-light-green' ?>"><?= htmlspecialchars($transaction['amount']) ?></td>
                 <td><?= htmlspecialchars($transaction['date']) ?></td>
                 <td>
-                    <!-- 削除ボタン -->
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-<?= $transaction['id'] ?>">
-                        <i class="bi bi-trash"></i> 削除
-                    </button>
-
-                    <!-- 削除モーダル -->
-                    <div class="modal fade" id="deleteModal-<?= $transaction['id'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel-<?= $transaction['id'] ?>" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteModalLabel-<?= $transaction['id'] ?>">取引の削除</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    本当にこの取引を削除しますか？<br>
-                                    <strong>説明:</strong> <?= htmlspecialchars($transaction['description']) ?><br>
-                                    <strong>金額:</strong> <?= htmlspecialchars($transaction['amount']) ?><br>
-                                    <strong>日付:</strong> <?= htmlspecialchars($transaction['date']) ?>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                                    <form method="POST" class="d-inline">
-                                        <input type="hidden" name="transaction_id" value="<?= $transaction['id'] ?>">
-                                        <button type="submit" name="delete_transaction" class="btn btn-danger">削除する</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- 編集ボタン -->
                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-<?= $transaction['id'] ?>">
                         <i class="bi bi-pencil-square"></i> 編集
@@ -183,10 +153,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
                                         <input type="hidden" name="transaction_id" value="<?= $transaction['id'] ?>">
                                     </div>
                                     <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-<?= $transaction['id'] ?>">
+                                            <i class="bi bi-trash"></i> 取引を削除
+                                        </button>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
                                         <button type="submit" name="edit_transaction" class="btn btn-primary">保存</button>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 削除モーダル -->
+                    <div class="modal fade" id="deleteModal-<?= $transaction['id'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel-<?= $transaction['id'] ?>" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel-<?= $transaction['id'] ?>">取引の削除</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    本当にこの取引を削除しますか？<br>
+                                    <strong>説明:</strong> <?= htmlspecialchars($transaction['description']) ?><br>
+                                    <strong>金額:</strong> <?= htmlspecialchars($transaction['amount']) ?><br>
+                                    <strong>日付:</strong> <?= htmlspecialchars($transaction['date']) ?>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                                    <form method="POST" class="d-inline">
+                                        <input type="hidden" name="transaction_id" value="<?= $transaction['id'] ?>">
+                                        <button type="submit" name="delete_transaction" class="btn btn-danger">削除する</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
