@@ -11,6 +11,17 @@ PHPとSQLite3を使用した借金管理・共有アプリ
 - 取引の編集と削除: 取引内容を後から変更・削除可能。
 - シェア機能: 貸借状況を共有するためのリンクを生成。
 
+## 実際の画面
+
+### 貸借先一覧
+![2025-01-23 0 07 51](https://github.com/user-attachments/assets/1cf015fa-c40f-4978-b9f5-78484e074914)
+
+### 貸借一覧
+![2025-01-23 0 07 54](https://github.com/user-attachments/assets/ed2b3626-14eb-41f3-8419-9a7dd9f111e4)
+![2025-01-23 0 08 02](https://github.com/user-attachments/assets/67453896-6afd-4049-a15e-9361ca8e85db)
+
+
+
 ## 仕様
 
 ### 技術スタック
