@@ -47,6 +47,40 @@ $totalBalance = $stmt->fetchColumn();
 $totalBalance=-1*$totalBalance;
 ?>
 
+<style>
+    /* テーブルのデザイン */
+    .transaction-table {
+        display: table;
+        width: 100%;
+    }
+
+    .transaction-card {
+        display: none;
+    }
+
+    /* カードレイアウトのデザイン */
+    .card {
+        margin-bottom: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        font-weight: bold;
+    }
+
+    /* 画面幅が768px以下の場合にカードレイアウトを表示し、テーブルを非表示にする */
+    @media (max-width: 768px) {
+        .transaction-table {
+            display: none;
+        }
+
+        .transaction-card {
+            display: block;
+        }
+    }
+</style>
+
 <div class="container mt-5">
     <h1 class="text-center">
         <?= htmlspecialchars($owner['username'] ?? 'Unknown') ?> との取引
@@ -59,7 +93,7 @@ $totalBalance=-1*$totalBalance;
             </span>円
         </h3>
     </div>
-    <table class="table table-striped mt-4">
+    <table class="table table-striped mt-4 transaction-table">
         <thead>
             <tr>
                 <th>説明</th>
@@ -79,6 +113,22 @@ $totalBalance=-1*$totalBalance;
             <?php endforeach; ?>
         </tbody>
     </table>
+    <!-- カード形式 -->
+    <div class="transaction-card">
+        <?php foreach ($transactions as $transaction): ?>
+            <div class="card">
+                <div class="card-header"><?= htmlspecialchars($transaction['description']) ?></div>
+                <div class="card-body">
+                    <p><strong>金額:</strong> 
+                        <span class="<?= $transaction['amount']*-1 < 0 ? 'text-danger' : 'text-success' ?>">
+                            <?= htmlspecialchars($transaction['amount']*-1) ?>
+                        </span>
+                    </p>
+                    <p><strong>日付:</strong> <?= htmlspecialchars($transaction['date']) ?></p>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </div>
 
 <?php require 'footer.php'; ?>
