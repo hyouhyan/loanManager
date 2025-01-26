@@ -22,7 +22,7 @@ $today = date('Y-m-d');
 $selectedContactId = isset($_GET['contact_id']) ? intval($_GET['contact_id']) : null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $contactId = $_POST['contact_id'];
+    $contactIds = $_POST['contact_ids']; // 複数の相手を受け取る
     $amount = $_POST['amount'];
     $description = !empty($_POST['description']) ? $_POST['description'] : 'No description'; // デフォルト値
     $date = !empty($_POST['date']) ? $_POST['date'] : $today; // 指定された日付または今日の日付を使用
@@ -38,9 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $amount = -abs($amount); // 借りる場合は負の金額
         }
 
-        // トランザクションをデータベースに追加
-        $stmt = $db->prepare("INSERT INTO transactions (user_id, contact_id, description, amount, date) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$userId, $contactId, $description, $amount, $date]);
+        // 各相手に対してトランザクションを追加
+        foreach ($contactIds as $contactId) {
+            $stmt = $db->prepare("INSERT INTO transactions (user_id, contact_id, description, amount, date) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$userId, $contactId, $description, $amount, $date]);
+        }
 
         // 成功後、index.phpにリダイレクト
         header('Location: index.php');
@@ -52,8 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h1 class="text-center">取引追加</h1>
 <form method="POST" class="w-50 mx-auto">
     <div class="mb-3">
-        <label for="contact_id" class="form-label">相手</label>
-        <select name="contact_id" class="form-select" required>
+        <label for="contact_ids" class="form-label">相手</label>
+        <select name="contact_ids[]" class="form-select" id="contact-select" required>
             <option value="" disabled <?= is_null($selectedContactId) ? 'selected' : '' ?>>相手を選択</option>
             <?php foreach ($contacts as $contact): ?>
                 <option value="<?= htmlspecialchars($contact['id']) ?>" 
@@ -62,6 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </option>
             <?php endforeach; ?>
         </select>
+        <div class="form-check mt-2">
+            <input type="checkbox" class="form-check-input" id="multi-select-toggle">
+            <label class="form-check-label" for="multi-select-toggle">複数人を選択する</label>
+        </div>
     </div>
     
     <div class="mb-3">
@@ -87,5 +93,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <a href="index.php" class="btn btn-secondary">戻る</a>
 </form>
+
+<script>
+    // JavaScriptでチェックボックスの状態を監視
+    document.getElementById('multi-select-toggle').addEventListener('change', function () {
+        const select = document.getElementById('contact-select');
+        if (this.checked) {
+            select.setAttribute('multiple', 'multiple'); // 複数選択を許可
+            select.removeAttribute('required'); // 必須属性を解除
+        } else {
+            select.removeAttribute('multiple'); // 複数選択を解除
+            select.setAttribute('required', 'required'); // 必須属性を追加
+        }
+    });
+</script>
 
 <?php require 'footer.php'; ?>
