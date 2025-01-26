@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <h1 class="text-center">取引先追加</h1>
-<form method="POST" class="w-50 mx-auto">
+<form method="POST" class="transaction-container mx-auto">
     <div class="mb-3">
         <label for="name" class="form-label">名前</label>
         <!-- 単一の名前入力フィールド -->

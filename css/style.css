@@ -11,3 +11,16 @@ a{
     text-decoration: none;
     cursor:pointer;
 }
+
+/* PCとスマホで幅を変える */
+.transaction-container {
+    width: 50%;
+    margin: 0 auto;
+}
+
+/* スマホの幅を90%に変更 */
+@media (max-width: 768px) {
+    .transaction-container {
+        width: 90%;
+    }
+}

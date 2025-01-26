@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <h1 class="text-center">ログイン</h1>
 <?php if (!empty($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
-<form method="POST" class="w-50 mx-auto">
+<form method="POST" class="transaction-container mx-auto">
     <div class="mb-3">
         <label for="username" class="form-label">ユーザーネーム</label>
         <input type="text" name="username" class="form-control" required>

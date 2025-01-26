@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <h1 class="text-center">取引追加</h1>
-<form method="POST" class="w-50 mx-auto">
+<form method="POST" class="transaction-container mx-auto">
     <div class="mb-3">
         <label for="contact_ids" class="form-label">相手</label>
         <select name="contact_ids[]" class="form-select" id="contact-select" required>
