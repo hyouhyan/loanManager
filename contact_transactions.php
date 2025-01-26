@@ -31,7 +31,7 @@ $stmt = $db->prepare("
     SELECT id, description, amount, date
     FROM transactions
     WHERE user_id = ? AND contact_id = ?
-    ORDER BY date DESC
+    ORDER BY date DESC, id DESC
 ");
 $stmt->execute([$userId, $contactId]);
 $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);

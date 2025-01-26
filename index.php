@@ -65,7 +65,7 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     SELECT description, amount, date
                     FROM transactions
                     WHERE contact_id = ? AND user_id = ?
-                    ORDER BY date DESC LIMIT 1
+                    ORDER BY date DESC, id DESC LIMIT 1
                 ");
                 $stmt->execute([$balance['id'], $userId]);
                 $latestTransaction = $stmt->fetch(PDO::FETCH_ASSOC);
