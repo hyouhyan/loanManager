@@ -251,7 +251,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
     </div>
 </div>
 
-<a href="index.php" class="btn btn-secondary">戻る</a>
+<a href="index.php" class="btn btn-secondary mb-2">戻る</a>
 
 <!-- 取引追加ボタン -->
 <a href="add_transaction.php?contact_id=<?= $contactId ?>" class="add-transaction-btn btn btn-primary">
