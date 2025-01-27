@@ -39,7 +39,7 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tr>
             <th>取引先</th>
             <th>貸借総額</th>
-            <th>最終取引</th>
+            <th class="d-none d-md-block">最終取引</th>
         </tr>
     </thead>
     <tbody>
@@ -71,7 +71,7 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $stmt->execute([$balance['id'], $userId]);
                 $latestTransaction = $stmt->fetch(PDO::FETCH_ASSOC);
                 ?>
-                <td>
+                <td class="d-none d-md-block">
                     <?php if ($latestTransaction): ?>
                         <?= htmlspecialchars($latestTransaction['description']) ?> (<?= number_format(htmlspecialchars($latestTransaction['amount'])) ?> 円)
                     <?php else: ?>
