@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
     <h3>
         貸借総額: 
         <span class="<?= $totalBalance > 0 ? 'text-success' : ($totalBalance < 0 ? 'text-danger' : '') ?>">
-            <?= number_format(htmlspecialchars($totalBalance)) ?> 
+            <?= number_format(abs(htmlspecialchars($totalBalance))) ?> 
         </span>円
     </h3>
     <a class="btn btn-secondary" href="share_contact.php?contact_id=<?= $contactId ?>">
@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
         <?php foreach ($transactions as $transaction): ?>
             <tr>
                 <td><?= htmlspecialchars($transaction['description']) ?></td>
-                <td class="<?= $transaction['amount'] < 0 ? 'bg-light-red' : 'bg-light-green' ?>"><?= number_format(htmlspecialchars($transaction['amount'])) ?> 円</td>
+                <td class="<?= $transaction['amount'] < 0 ? 'bg-light-red' : 'bg-light-green' ?>"><?= number_format(abs(htmlspecialchars($transaction['amount']))) ?> 円</td>
                 <td><?= htmlspecialchars($transaction['date']) ?></td>
                 <td>
                     <!-- 編集ボタン -->
@@ -178,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
             <div class="card-body">
                 <p><strong>金額:</strong> 
                     <span class="<?= $transaction['amount'] < 0 ? 'text-danger' : 'text-success' ?>">
-                        <?= number_format(htmlspecialchars($transaction['amount'])) ?> 円
+                        <?= number_format(abs(htmlspecialchars($transaction['amount']))) ?> 円
                     </span>
                 </p>
                 <p><strong>日付:</strong> <?= htmlspecialchars($transaction['date']) ?></p>

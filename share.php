@@ -89,7 +89,7 @@ $totalBalance=-1*$totalBalance;
         <h3>
             貸借総額: 
             <span class="<?= $totalBalance > 0 ? 'text-success' : ($totalBalance < 0 ? 'text-danger' : '') ?>">
-                <?= number_format(htmlspecialchars($totalBalance)) ?> 
+                <?= number_format(abs(htmlspecialchars($totalBalance))) ?> 
             </span>円
             <br>
         </h3>
@@ -119,7 +119,7 @@ $totalBalance=-1*$totalBalance;
                 <tr>
                     <td><?= htmlspecialchars($transaction['description']) ?></td>
                     <td class="<?= $transaction['amount']*-1 < 0 ? 'table-danger' : 'table-success' ?>">
-                        <?= number_format(htmlspecialchars($transaction['amount']*-1)) ?> 円
+                        <?= number_format(abs(htmlspecialchars($transaction['amount']*-1))) ?> 円
                     </td>
                     <td><?= htmlspecialchars($transaction['date']) ?></td>
                 </tr>
@@ -134,7 +134,7 @@ $totalBalance=-1*$totalBalance;
                 <div class="card-body">
                     <p><strong>金額:</strong> 
                         <span class="<?= $transaction['amount']*-1 < 0 ? 'text-danger' : 'text-success' ?>">
-                            <?= number_format(htmlspecialchars($transaction['amount']*-1)) ?> 円
+                            <?= number_format(abs(htmlspecialchars($transaction['amount']*-1))) ?> 円
                         </span>
                     </p>
                     <p><strong>日付:</strong> <?= htmlspecialchars($transaction['date']) ?></p>
