@@ -96,9 +96,9 @@ $totalBalance=-1*$totalBalance;
         <!-- どっちがどっちに貸してるか明示的に表示する -->
         <div class="text-muted">
             (
-            <?php if ($totalBalance > 0): ?>
+            <?php if ($totalBalance < 0): ?>
                 <?= htmlspecialchars($owner['username'] ?? 'Unknown') ?>が<?= htmlspecialchars($contact['name']) ?>に貸しています
-            <?php elseif ($totalBalance < 0): ?>
+            <?php elseif ($totalBalance > 0): ?>
                 <?= htmlspecialchars($contact['name']) ?>が<?= htmlspecialchars($owner['username'] ?? 'Unknown') ?>に貸しています
             <?php else: ?>
                 チャラになりました
