@@ -51,12 +51,13 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </a>
                 </td>
                 <?php if (htmlspecialchars($balance['balance'] ?? 0) < 0): ?>
-                    <td class="bg-light-red"><?= htmlspecialchars($balance['balance'] ?? 0) ?> 円</td>  <!-- 負の金額は赤 -->
+                    <td class="bg-light-red">  <!-- 負の金額は赤 -->
                 <?php elseif (htmlspecialchars($balance['balance'] ?? 0) > 0): ?>
-                    <td class="bg-light-green"><?= htmlspecialchars($balance['balance'] ?? 0) ?> 円</td>  <!-- 正の金額は緑 -->
+                    <td class="bg-light-green">  <!-- 正の金額は緑 -->
                 <?php else: ?>
-                    <td><?= htmlspecialchars($balance['balance'] ?? 0) ?> 円</td>  <!-- 0円の場合はそのまま表示 -->
+                    <td>  <!-- 0円の場合はそのまま表示 -->
                 <?php endif; ?>
+                <?= number_format(htmlspecialchars($balance['balance'] ?? 0)) ?> 円</td>
 
 
                 <?php
@@ -72,9 +73,9 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 ?>
                 <td>
                     <?php if ($latestTransaction): ?>
-                        <?= htmlspecialchars($latestTransaction['description']) ?> (<?= htmlspecialchars($latestTransaction['amount']) ?> 円)
+                        <?= htmlspecialchars($latestTransaction['description']) ?> (<?= number_format(htmlspecialchars($latestTransaction['amount'])) ?> 円)
                     <?php else: ?>
-                        No transactions
+                        なし
                     <?php endif; ?>
                 </td>
             </tr>

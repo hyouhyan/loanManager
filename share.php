@@ -83,15 +83,28 @@ $totalBalance=-1*$totalBalance;
 
 <div class="container mt-5">
     <h1 class="text-center">
-        <?= htmlspecialchars($owner['username'] ?? 'Unknown') ?> との取引
+        <?= htmlspecialchars($owner['username'] ?? 'Unknown') ?>と<?php echo htmlspecialchars($contact['name']); ?>の取引
     </h1>
     <div class="text-center my-4">
         <h3>
             貸借総額: 
             <span class="<?= $totalBalance > 0 ? 'text-success' : ($totalBalance < 0 ? 'text-danger' : '') ?>">
-                <?= htmlspecialchars($totalBalance) ?> 
+                <?= number_format(htmlspecialchars($totalBalance)) ?> 
             </span>円
+            <br>
         </h3>
+        <!-- どっちがどっちに貸してるか明示的に表示する -->
+        <div class="text-muted">
+            (
+            <?php if ($totalBalance > 0): ?>
+                <?= htmlspecialchars($owner['username'] ?? 'Unknown') ?>が<?= htmlspecialchars($contact['name']) ?>に貸しています
+            <?php elseif ($totalBalance < 0): ?>
+                <?= htmlspecialchars($contact['name']) ?>が<?= htmlspecialchars($owner['username'] ?? 'Unknown') ?>に貸しています
+            <?php else: ?>
+                チャラになりました
+            <?php endif; ?>
+            )
+        </div>
     </div>
     <table class="table table-striped mt-4 transaction-table">
         <thead>
@@ -106,7 +119,7 @@ $totalBalance=-1*$totalBalance;
                 <tr>
                     <td><?= htmlspecialchars($transaction['description']) ?></td>
                     <td class="<?= $transaction['amount']*-1 < 0 ? 'table-danger' : 'table-success' ?>">
-                        <?= htmlspecialchars($transaction['amount']*-1) ?>
+                        <?= number_format(htmlspecialchars($transaction['amount']*-1)) ?> 円
                     </td>
                     <td><?= htmlspecialchars($transaction['date']) ?></td>
                 </tr>
@@ -121,7 +134,7 @@ $totalBalance=-1*$totalBalance;
                 <div class="card-body">
                     <p><strong>金額:</strong> 
                         <span class="<?= $transaction['amount']*-1 < 0 ? 'text-danger' : 'text-success' ?>">
-                            <?= htmlspecialchars($transaction['amount']*-1) ?>
+                            <?= number_format(htmlspecialchars($transaction['amount']*-1)) ?> 円
                         </span>
                     </p>
                     <p><strong>日付:</strong> <?= htmlspecialchars($transaction['date']) ?></p>
