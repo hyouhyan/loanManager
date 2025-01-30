@@ -1,7 +1,7 @@
 <?php
 session_start();
-require $_SERVER['DOCUMENT_ROOT'].'database.php';
-require $_SERVER['DOCUMENT_ROOT'].'header.php';
+require $_SERVER['DOCUMENT_ROOT'].'/db/database.php';
+require $_SERVER['DOCUMENT_ROOT'].'/header.php';
 
 // ユーザーIDを取得
 $userId = $_SESSION['user_id'] ?? '';

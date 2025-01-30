@@ -1,7 +1,7 @@
 <?php
 session_start();
 require $_SERVER['DOCUMENT_ROOT'].'/db/database.php';
-require $_SERVER['DOCUMENT_ROOT'].'/db/header.php';
+require $_SERVER['DOCUMENT_ROOT'].'/header.php';
 
 $shareCode = $_GET['code'] ?? '';
 
