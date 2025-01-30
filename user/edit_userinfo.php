@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
         </div>
         <button type="submit" class="btn btn-primary">変更</button>
-        <a href="index.php" class="btn btn-secondary">キャンセル</a>
+        <a href="/index.php" class="btn btn-secondary">キャンセル</a>
     </form>
 </div>
 
