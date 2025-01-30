@@ -86,6 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
     header("Location: /transaction/contact_transactions.php?contact_id=$contactId");
     exit;
 }
+
+// ユーザーネームを取得
+$stmt = $db->prepare("SELECT username FROM users WHERE id = ?");
+$stmt->execute([$userId]);
+$owner = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <style>
@@ -171,7 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
                 <td><?= htmlspecialchars($transaction['description']) ?></td>
                 <td class="<?= $transaction['amount'] < 0 ? 'bg-light-red' : 'bg-light-green' ?>">
                     <?= number_format(abs(htmlspecialchars($transaction['amount']))) ?> 円
-                    <?= $transaction['amount'] > 0 ? '<span class="text-success">(貸し)</span>' : '<span class="text-danger">(借り)</span>' ?>
+                    <?= $transaction['amount'] > 0 ? '<span class="text-success">('.$owner['username'].'→'.$contact['name'].')</span>' : '<span class="text-danger">('.$contact['name'].'→'.$owner['username'].')</span>' ?>
                 </td>
                 <td><?= htmlspecialchars($transaction['date']) ?></td>
                 <td>
@@ -194,7 +199,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
                 <p><strong>金額:</strong> 
                     <span>
                         <?= number_format(abs(htmlspecialchars($transaction['amount']))) ?> 円
-                        <?= $transaction['amount'] > 0 ? '<span class="text-success">(貸し)</span>' : '<span class="text-danger">(借り)</span>' ?>
+                        <?= $transaction['amount'] > 0 ? '<span class="text-success">('.$owner['username'].'→'.$contact['name'].')</span>' : '<span class="text-danger">('.$contact['name'].'→'.$owner['username'].')</span>' ?>
                     </span>
                 </p>
                 <p><strong>日付:</strong> <?= htmlspecialchars($transaction['date']) ?></p>

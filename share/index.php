@@ -120,7 +120,7 @@ $totalBalance=-1*$totalBalance;
                     <td><?= htmlspecialchars($transaction['description']) ?></td>
                     <td class="<?= $transaction['amount']*-1 < 0 ? 'table-danger' : 'table-success' ?>">
                         <?= number_format(abs(htmlspecialchars($transaction['amount']*-1))) ?> 円
-                        <?= $transaction['amount']*-1 > 0 ? '<span class="text-success">(貸し)</span>' : '<span class="text-danger">(借り)</span>' ?>
+                        <?= $transaction['amount']*-1 > 0 ? '<span class="text-success">('.$contact['name'].'→'.$owner['username'].')</span>' : '<span class="text-danger">('.$owner['username'].'→'.$contact['name'].')</span>' ?>
                     </td>
                     <td><?= htmlspecialchars($transaction['date']) ?></td>
                 </tr>
@@ -136,7 +136,7 @@ $totalBalance=-1*$totalBalance;
                     <p><strong>金額:</strong> 
                         <span class="<?= $transaction['amount']*-1 < 0 ? 'text-danger' : 'text-success' ?>">
                             <?= number_format(abs(htmlspecialchars($transaction['amount']*-1))) ?> 円
-                            <?= $transaction['amount']*-1 > 0 ? '<span class="text-success">(貸し)</span>' : '<span class="text-danger">(借り)</span>' ?>
+                            <?= $transaction['amount']*-1 > 0 ? '<span class="text-success">('.$contact['name'].'→'.$owner['username'].')</span>' : '<span class="text-danger">('.$owner['username'].'→'.$contact['name'].')</span>' ?>
                         </span>
                     </p>
                     <p><strong>日付:</strong> <?= htmlspecialchars($transaction['date']) ?></p>
