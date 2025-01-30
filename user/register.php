@@ -1,6 +1,6 @@
 <?php
-require 'database.php';
-require 'header.php';
+require $_SERVER['DOCUMENT_ROOT'].'/db/database.php';
+require $_SERVER['DOCUMENT_ROOT'].'/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
     try {
         $stmt->execute([$username, $password]);
-        header('Location: login.php');
+        header('Location: /user/login.php');
         exit;
     } catch (PDOException $e) {
         $error = "Username already taken.";
@@ -33,4 +33,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </form>
 
-<?php require 'footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>

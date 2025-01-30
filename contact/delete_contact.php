@@ -1,7 +1,7 @@
 <?php
 session_start();
-require 'database.php';
-require 'header.php';
+require $_SERVER['DOCUMENT_ROOT'].'/db/database.php';
+require $_SERVER['DOCUMENT_ROOT'].'/header.php';
 
 $contactId = $_GET['id'] ?? '';
 
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // コミット
             $db->commit();
             echo "<div class='alert alert-success'>Contact and related transactions deleted successfully.</div>";
-            header('Location: index.php');
+            header('Location: /index.php');
             exit;
         } catch (Exception $e) {
             // エラー時はロールバック
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } else {
         // キャンセル時
-        header('Location: index.php');
+        header('Location: /index.php');
         exit;
     }
 }
@@ -57,8 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p class="text-center">本当に「<?= htmlspecialchars($contact['name']) ?>」とその取引を削除しますか？</p>
     <form method="POST" class="text-center mt-4">
         <button type="submit" name="confirm" value="yes" class="btn btn-danger">はい</button>
-        <a href="index.php" class="btn btn-secondary">いいえ</a>
+        <a href="/index.php" class="btn btn-secondary">いいえ</a>
     </form>
 </div>
 
-<?php require 'footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>

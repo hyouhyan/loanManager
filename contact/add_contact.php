@@ -1,10 +1,10 @@
 <?php
 session_start();
-require 'database.php';
-require 'header.php';
+require $_SERVER['DOCUMENT_ROOT'].'/db/database.php';
+require $_SERVER['DOCUMENT_ROOT'].'/header.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: /user/login.php');
     exit;
 }
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // 成功後、index.phpにリダイレクト
-    header('Location: index.php');
+    header('Location: /index.php');
     exit;
 }
 ?>
@@ -80,4 +80,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
 </script>
 
-<?php require 'footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>

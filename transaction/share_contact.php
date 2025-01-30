@@ -1,9 +1,9 @@
 <?php
 session_start();
-require 'database.php';
+require $_SERVER['DOCUMENT_ROOT'].'/db/database.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: /user/login.php');
     exit;
 }
 
@@ -38,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['regenerate'])) {
 
 // 共有URLを表示
 $baseUrl = 'http://' . $_SERVER['HTTP_HOST'];
-$shareUrl = "{$baseUrl}/share.php?code={$shareCode}";
+$shareUrl = "{$baseUrl}/share?code={$shareCode}";
 
-require 'header.php';
+require $_SERVER['DOCUMENT_ROOT'].'/header.php';
 ?>
 
 <div class="container mt-5">
@@ -62,8 +62,8 @@ require 'header.php';
     </div>
 
     <div class="text-center mt-4">
-        <a href="index.php" class="btn btn-primary">戻る</a>
+        <a href="/index.php" class="btn btn-primary">戻る</a>
     </div>
 </div>
 
-<?php require 'footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>

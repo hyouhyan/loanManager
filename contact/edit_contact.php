@@ -1,7 +1,7 @@
 <?php
 session_start();
-require 'database.php';
-require 'header.php';
+require $_SERVER['DOCUMENT_ROOT'].'/db/database.php';
+require $_SERVER['DOCUMENT_ROOT'].'/header.php';
 
 $contactId = $_GET['id'] ?? '';
 
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo "<div class='alert alert-success'>Contact updated successfully.</div>";
         $contact['name'] = $name;
-        header('Location: index.php');
+        header('Location: /index.php');
         exit;
     } else {
         echo "<div class='alert alert-danger'>Please fill in all fields.</div>";
@@ -45,12 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="name" class="form-label">名前</label>
             <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($contact['name']) ?>" required>
         </div>
-        <a href="delete_contact.php?id=<?= htmlspecialchars($contactId) ?>" class="btn btn-danger mb-2">削除</a>
+        <a href="/contact/delete_contact.php?id=<?= htmlspecialchars($contactId) ?>" class="btn btn-danger mb-2">削除</a>
         <br>
         <button type="submit" class="btn btn-primary">変更</button>
-        <a href="index.php" class="btn btn-secondary">キャンセル</a>
+        <a href="/index.php" class="btn btn-secondary">キャンセル</a>
         <!-- 削除ボタン -->
     </form>
 </div>
 
-<?php require 'footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>

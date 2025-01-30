@@ -1,10 +1,10 @@
 <?php
 session_start();
-require 'database.php';
-require 'header.php';
+require $_SERVER['DOCUMENT_ROOT'].'/db/database.php';
+require $_SERVER['DOCUMENT_ROOT'].'/header.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: /user/login.php');
     exit;
 }
 
@@ -12,7 +12,7 @@ $userId = $_SESSION['user_id'];
 $contactId = $_GET['contact_id'] ?? null;
 
 if (!$contactId) {
-    header('Location: index.php');
+    header('Location: /index.php');
     exit;
 }
 
@@ -22,7 +22,7 @@ $stmt->execute([$contactId, $userId]);
 $contact = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$contact) {
-    header('Location: index.php');
+    header('Location: /index.php');
     exit;
 }
 
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clear_balance'])) {
     ");
     $stmt->execute([$userId, $contactId, -$totalBalance]);
 
-    header("Location: contact_transactions.php?contact_id=$contactId");
+    header("Location: /transaction/contact_transactions.php?contact_id=$contactId");
     exit;
 }
 
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_transaction'])
     $transactionId = $_POST['transaction_id'];
     $stmt = $db->prepare("DELETE FROM transactions WHERE id = ? AND user_id = ?");
     $stmt->execute([$transactionId, $userId]);
-    header("Location: contact_transactions.php?contact_id=$contactId");
+    header("Location: /transaction/contact_transactions.php?contact_id=$contactId");
     exit;
 }
 
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
     ");
     $stmt->execute([$description, $amount, $date, $transactionId, $userId]);
 
-    header("Location: contact_transactions.php?contact_id=$contactId");
+    header("Location: /transaction/contact_transactions.php?contact_id=$contactId");
     exit;
 }
 ?>
@@ -130,11 +130,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
             <?= number_format(abs(htmlspecialchars($totalBalance))) ?> 
         </span>円
     </h3>
-    <a class="btn btn-secondary" href="share_contact.php?contact_id=<?= $contactId ?>">
+    <a class="btn btn-secondary" href="/transaction/share_contact.php?contact_id=<?= $contactId ?>">
         <i class="bi bi-share-fill"></i>
         共有
     </a>
-    <a class="btn btn-secondary" href="edit_contact.php?id=<?= $contactId ?>">
+    <a class="btn btn-secondary" href="/contact/edit_contact.php?id=<?= $contactId ?>">
         <i class="bi bi-pencil-square"></i>
         編集
     </a>
@@ -253,10 +253,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
     </div>
 <?php endforeach; ?>
 
-<a href="index.php" class="btn btn-secondary mb-2">戻る</a>
+<a href="/index.php" class="btn btn-secondary mb-2">戻る</a>
 
 <!-- 取引追加ボタン -->
-<a href="add_transaction.php?contact_id=<?= $contactId ?>" class="add-transaction-btn btn btn-primary">
+<a href="/transaction/add_transaction.php?contact_id=<?= $contactId ?>" class="add-transaction-btn btn btn-primary">
     <i class="bi bi-plus"></i>
 </a>
 
@@ -300,4 +300,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
 }
 </style>
 
-<?php require 'footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>

@@ -1,10 +1,10 @@
 <?php
 session_start();
-require 'database.php';
-require 'header.php';
+require $_SERVER['DOCUMENT_ROOT'].'/db/database.php';
+require $_SERVER['DOCUMENT_ROOT'].'/header.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: /user/login.php');
     exit;
 }
 
@@ -26,10 +26,10 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <h1 class="text-center">借金一覧</h1>
 
 <div class="text-end mb-3">
-    <a href="add_contact.php" class="btn btn-primary">
+    <a href="/contact/add_contact.php" class="btn btn-primary">
         <i class="bi bi-person-fill-add"></i> 取引先追加
     </a>
-    <a href="add_transaction.php" class="btn btn-primary">
+    <a href="/transaction/add_transaction.php" class="btn btn-primary">
         <i class="bi bi-cash-stack"></i> 借金追加
     </a>
 </div>
@@ -46,7 +46,7 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($balances as $balance): ?>
             <tr>
                 <td>
-                    <a href="contact_transactions.php?contact_id=<?= htmlspecialchars($balance['id']) ?>">
+                    <a href="/transaction/contact_transactions.php?contact_id=<?= htmlspecialchars($balance['id']) ?>">
                         <?= htmlspecialchars($balance['name']) ?>
                     </a>
                 </td>
@@ -83,4 +83,4 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </tbody>
 </table>
 
-<?php require 'footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>
