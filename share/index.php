@@ -120,6 +120,7 @@ $totalBalance=-1*$totalBalance;
                     <td><?= htmlspecialchars($transaction['description']) ?></td>
                     <td class="<?= $transaction['amount']*-1 < 0 ? 'table-danger' : 'table-success' ?>">
                         <?= number_format(abs(htmlspecialchars($transaction['amount']*-1))) ?> 円
+                        <?= $transaction['amount']*-1 > 0 ? '<span class="text-success">(貸し)</span>' : '<span class="text-danger">(借り)</span>' ?>
                     </td>
                     <td><?= htmlspecialchars($transaction['date']) ?></td>
                 </tr>
@@ -129,12 +130,13 @@ $totalBalance=-1*$totalBalance;
     <!-- カード形式 -->
     <div class="transaction-card">
         <?php foreach ($transactions as $transaction): ?>
-            <div class="card">
+            <div class="card <?= $transaction['amount']*-1 < 0 ? 'bg-light-red' : 'bg-light-green' ?>">
                 <div class="card-header"><?= htmlspecialchars($transaction['description']) ?></div>
                 <div class="card-body">
                     <p><strong>金額:</strong> 
                         <span class="<?= $transaction['amount']*-1 < 0 ? 'text-danger' : 'text-success' ?>">
                             <?= number_format(abs(htmlspecialchars($transaction['amount']*-1))) ?> 円
+                            <?= $transaction['amount']*-1 > 0 ? '<span class="text-success">(貸し)</span>' : '<span class="text-danger">(借り)</span>' ?>
                         </span>
                     </p>
                     <p><strong>日付:</strong> <?= htmlspecialchars($transaction['date']) ?></p>

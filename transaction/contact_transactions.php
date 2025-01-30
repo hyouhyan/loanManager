@@ -130,6 +130,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
             <?= number_format(abs(htmlspecialchars($totalBalance))) ?> 
         </span>円
     </h3>
+    <!-- どっちがどっちに貸してるか明示的に表示する -->
+    <div class="text-muted mb-3">
+            (
+            <?php if ($totalBalance > 0): ?>
+                あなたが<?= htmlspecialchars($contact['name']) ?>に貸しています
+            <?php elseif ($totalBalance < 0): ?>
+                <?= htmlspecialchars($contact['name']) ?>があなたに貸しています
+            <?php else: ?>
+                チャラになりました
+            <?php endif; ?>
+            )
+        </div>
     <a class="btn btn-secondary" href="/transaction/share_contact.php?contact_id=<?= $contactId ?>">
         <i class="bi bi-share-fill"></i>
         共有
@@ -157,7 +169,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
         <?php foreach ($transactions as $transaction): ?>
             <tr>
                 <td><?= htmlspecialchars($transaction['description']) ?></td>
-                <td class="<?= $transaction['amount'] < 0 ? 'bg-light-red' : 'bg-light-green' ?>"><?= number_format(abs(htmlspecialchars($transaction['amount']))) ?> 円</td>
+                <td class="<?= $transaction['amount'] < 0 ? 'bg-light-red' : 'bg-light-green' ?>">
+                    <?= number_format(abs(htmlspecialchars($transaction['amount']))) ?> 円
+                    <?= $transaction['amount'] > 0 ? '<span class="text-success">(貸し)</span>' : '<span class="text-danger">(借り)</span>' ?>
+                </td>
                 <td><?= htmlspecialchars($transaction['date']) ?></td>
                 <td>
                     <!-- 編集ボタン -->
@@ -173,12 +188,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_transaction'])) 
 <!-- カード形式 -->
 <div class="transaction-card">
     <?php foreach ($transactions as $transaction): ?>
-        <div class="card">
+        <div class="card <?= $transaction['amount'] < 0 ? 'bg-light-red' : 'bg-light-green' ?>">
             <div class="card-header"><?= htmlspecialchars($transaction['description']) ?></div>
             <div class="card-body">
                 <p><strong>金額:</strong> 
-                    <span class="<?= $transaction['amount'] < 0 ? 'text-danger' : 'text-success' ?>">
+                    <span>
                         <?= number_format(abs(htmlspecialchars($transaction['amount']))) ?> 円
+                        <?= $transaction['amount'] > 0 ? '<span class="text-success">(貸し)</span>' : '<span class="text-danger">(借り)</span>' ?>
                     </span>
                 </p>
                 <p><strong>日付:</strong> <?= htmlspecialchars($transaction['date']) ?></p>
