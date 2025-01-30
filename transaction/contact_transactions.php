@@ -139,9 +139,9 @@ $owner = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="text-muted mb-3">
             (
             <?php if ($totalBalance > 0): ?>
-                あなたが<?= htmlspecialchars($contact['name']) ?>に貸しています
+                <?= htmlspecialchars($contact['name']) ?>に貸しています
             <?php elseif ($totalBalance < 0): ?>
-                <?= htmlspecialchars($contact['name']) ?>があなたに貸しています
+                <?= htmlspecialchars($contact['name']) ?>から借りています
             <?php else: ?>
                 チャラになりました
             <?php endif; ?>
