@@ -1,7 +1,7 @@
 <?php
 session_start();
-require '/db/database.php';
-require '/header.php';
+require $_SERVER['DOCUMENT_ROOT'].'/db/database.php';
+require $_SERVER['DOCUMENT_ROOT'].'/header.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: /user/login.php');
@@ -80,4 +80,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
 </script>
 
-<?php require '/footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>

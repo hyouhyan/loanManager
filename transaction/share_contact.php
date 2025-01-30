@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '/db/database.php';
+require $_SERVER['DOCUMENT_ROOT'].'/db/database.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: /user/login.php');
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['regenerate'])) {
 $baseUrl = 'http://' . $_SERVER['HTTP_HOST'];
 $shareUrl = "{$baseUrl}/share?code={$shareCode}";
 
-require '/header.php';
+require $_SERVER['DOCUMENT_ROOT'].'/header.php';
 ?>
 
 <div class="container mt-5">
@@ -66,4 +66,4 @@ require '/header.php';
     </div>
 </div>
 
-<?php require '/footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'/footer.php'; ?>

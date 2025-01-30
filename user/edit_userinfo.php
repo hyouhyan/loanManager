@@ -1,7 +1,7 @@
 <?php
 session_start();
-require 'database.php';
-require 'header.php';
+require $_SERVER['DOCUMENT_ROOT'].'database.php';
+require $_SERVER['DOCUMENT_ROOT'].'header.php';
 
 // ユーザーIDを取得
 $userId = $_SESSION['user_id'] ?? '';
@@ -62,4 +62,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 </div>
 
-<?php require 'footer.php'; ?>
+<?php require $_SERVER['DOCUMENT_ROOT'].'footer.php'; ?>
