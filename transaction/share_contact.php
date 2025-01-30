@@ -28,7 +28,7 @@ if (empty($contact['share_code'])) {
 
 // 再生成ボタンが押された場合の処理
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['regenerate'])) {
-    $newShareCode = substr(md5(uniqid(mt_rand(), true)), 0, 11); // 新しい11桁のランダム英数字
+    $newShareCode = generateRandomCode();
     $stmt = $db->prepare("UPDATE contacts SET share_code = ? WHERE id = ?");
     $stmt->execute([$newShareCode, $contactId]);
     $contact['share_code'] = $newShareCode; // 更新されたコードを反映
@@ -55,14 +55,39 @@ require $_SERVER['DOCUMENT_ROOT'].'/header.php';
                 <button class="btn btn-primary" onclick="navigator.clipboard.writeText('<?= htmlspecialchars($shareUrl) ?>')">Copy</button>
             </div>
             <p class="text-muted">リンクは一意であり、他の人がアクセス可能です。</p>
-            <form method="POST" class="text-center mt-4">
-                <button type="submit" name="regenerate" class="btn btn-danger">再生成</button>
-            </form>
+
+            <!-- 再生成ボタン (モーダルを開く) -->
+            <button type="button" class="btn btn-danger mt-4" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                再生成
+            </button>
         </div>
     </div>
 
     <div class="text-center mt-4">
         <a href="/index.php" class="btn btn-primary">戻る</a>
+    </div>
+</div>
+
+<!-- 確認モーダル -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">共有リンクの再生成</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+            </div>
+            <div class="modal-body">
+                新しい共有リンクを生成します。<br>
+                <strong>古いリンクは使えなくなります。</strong><br>
+                よろしいですか？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                <form method="POST">
+                    <button type="submit" name="regenerate" class="btn btn-danger">はい、再生成する</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
