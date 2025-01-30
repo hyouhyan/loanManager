@@ -1,7 +1,7 @@
 <?php
 session_start();
-require 'database.php';
-require 'header.php';
+require '/db/database.php';
+require '/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
-        header('Location: index.php');
+        header('Location: /index.php');
         exit;
     } else {
         $error = "Invalid username or password.";
@@ -37,4 +37,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </form>
 
-<?php require 'footer.php'; ?>
+<?php require '/footer.php'; ?>

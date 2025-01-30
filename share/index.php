@@ -1,7 +1,7 @@
 <?php
 session_start();
-require 'database.php';
-require 'header.php';
+require '/db/database.php';
+require '/db/header.php';
 
 $shareCode = $_GET['code'] ?? '';
 
@@ -144,4 +144,4 @@ $totalBalance=-1*$totalBalance;
     </div>
 </div>
 
-<?php require 'footer.php'; ?>
+<?php require '/footer.php'; ?>
