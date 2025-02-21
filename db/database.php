@@ -13,18 +13,19 @@ try {
         )
     ");
 
-    // 連絡先テーブル（ownerカラム追加）
+    // 連絡先テーブル
     $db->exec("
         CREATE TABLE IF NOT EXISTS contacts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             name TEXT NOT NULL,
             share_code TEXT,
+            last_lent_date TEXT,
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
         )
     ");
 
-    // トランザクションテーブル（ownerカラム追加）
+    // トランザクションテーブル
     $db->exec("
         CREATE TABLE IF NOT EXISTS transactions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

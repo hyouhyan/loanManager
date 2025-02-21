@@ -40,6 +40,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // 各相手に対してトランザクションを追加
         foreach ($contactIds as $contactId) {
+            // 取引前の残高を取得
+            $stmt = $db->prepare("SELECT SUM(amount) FROM transactions WHERE user_id = ? AND contact_id = ?");
+            $stmt->execute([$userId, $contactId]);
+            $balance = $stmt->fetchColumn();
+            // もし残高が0なら
+            if ($balance == 0) {
+                // 連絡先の最終貸し出し日を更新
+                $stmt = $db->prepare("UPDATE contacts SET last_lent_date = ? WHERE id = ?");
+                $stmt->execute([$date, $contactId]);
+            }
             $stmt = $db->prepare("INSERT INTO transactions (user_id, contact_id, description, amount, date) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$userId, $contactId, $description, $amount, $date]);
         }
