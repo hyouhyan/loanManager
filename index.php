@@ -75,11 +75,14 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <td>
                     <?php if ($latestTransaction && $balance['balance'] != 0): ?>
-                        <!-- last_lent_dateより滞納日数を計算 -->
                         <?php
-                        $lastLentDate = new DateTime($balance['last_lent_date']);
-                        $lastTransactionDate = new DateTime($latestTransaction['date']);
-                        $days = $lastLentDate->diff($lastTransactionDate)->days;
+                        if($balance['last_lent_date'] != null) {
+                            $lastLentDate = new DateTime($balance['last_lent_date']);
+                        } else {
+                            $lastLentDate = new DateTime($latestTransaction['date']);
+                        }
+                        $today = new DateTime();
+                        $days = $lastLentDate->diff($today)->days;
                         ?>
                         <?= $days ?> 日
                     <?php else: ?>
