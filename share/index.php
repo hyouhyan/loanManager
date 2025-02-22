@@ -93,6 +93,24 @@ $totalBalance=-1*$totalBalance;
             </span>円
             <br>
         </h3>
+        <h3>
+            滞納日数: 
+            <span>
+            <?php if ($totalBalance != 0): ?>
+                <?php
+                if($contact['last_lent_date'] != null) {
+                    $lastLentDate = new DateTime($contact['last_lent_date']);
+                } else {
+                    $lastLentDate = new DateTime($transactions[0]['date']);
+                }
+                $today = new DateTime();
+                $days = $lastLentDate->diff($today)->days;
+                ?>
+                <?= $days ?> 日
+            <?php else: ?>
+                なし
+            <?php endif; ?>
+        </h3>
         <!-- どっちがどっちに貸してるか明示的に表示する -->
         <div class="text-muted">
             (

@@ -17,7 +17,7 @@ if (!$contactId) {
 }
 
 // 指定されたコンタクトの情報を取得
-$stmt = $db->prepare("SELECT name FROM contacts WHERE id = ? AND user_id = ?");
+$stmt = $db->prepare("SELECT name, last_lent_date FROM contacts WHERE id = ? AND user_id = ?");
 $stmt->execute([$contactId, $userId]);
 $contact = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -134,6 +134,24 @@ $owner = $stmt->fetch(PDO::FETCH_ASSOC);
         <span class="<?= $totalBalance > 0 ? 'text-success' : ($totalBalance < 0 ? 'text-danger' : '') ?>">
             <?= number_format(abs(htmlspecialchars($totalBalance))) ?> 
         </span>円
+    </h3>
+    <h3>
+        滞納日数: 
+        <span>
+        <?php if ($totalBalance != 0): ?>
+            <?php
+            if($contact['last_lent_date'] != null) {
+                $lastLentDate = new DateTime($contact['last_lent_date']);
+            } else {
+                $lastLentDate = new DateTime($transactions[0]['date']);
+            }
+            $today = new DateTime();
+            $days = $lastLentDate->diff($today)->days;
+            ?>
+            <?= $days ?> 日
+        <?php else: ?>
+            なし
+        <?php endif; ?>
     </h3>
     <!-- どっちがどっちに貸してるか明示的に表示する -->
     <div class="text-muted mb-3">
