@@ -12,7 +12,7 @@ $userId = $_SESSION['user_id'];
 
 // ユーザーが所有する連絡先を取得
 $stmt = $db->prepare("
-    SELECT c.id, c.name, SUM(t.amount) AS balance
+    SELECT c.id, c.name, c.last_lent_date, SUM(t.amount) AS balance
     FROM contacts c
     LEFT JOIN transactions t ON c.id = t.contact_id AND t.user_id = ?
     WHERE c.user_id = ?
@@ -39,6 +39,7 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tr>
             <th>取引先</th>
             <th>貸借総額</th>
+            <th>滞納日数</th>
             <th class="d-none d-md-block">最終取引</th>
         </tr>
     </thead>
@@ -71,6 +72,21 @@ $balances = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $stmt->execute([$balance['id'], $userId]);
                 $latestTransaction = $stmt->fetch(PDO::FETCH_ASSOC);
                 ?>
+
+                <td>
+                    <?php if ($latestTransaction && $balance['balance'] != 0): ?>
+                        <!-- last_lent_dateより滞納日数を計算 -->
+                        <?php
+                        $lastLentDate = new DateTime($balance['last_lent_date']);
+                        $lastTransactionDate = new DateTime($latestTransaction['date']);
+                        $days = $lastLentDate->diff($lastTransactionDate)->days;
+                        ?>
+                        <?= $days ?> 日
+                    <?php else: ?>
+                        なし
+                    <?php endif; ?>
+                </td>
+
                 <td class="d-none d-md-block">
                     <?php if ($latestTransaction): ?>
                         <?= htmlspecialchars($latestTransaction['description']) ?> (<?= number_format(htmlspecialchars($latestTransaction['amount'])) ?> 円)

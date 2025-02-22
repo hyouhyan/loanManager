@@ -25,6 +25,21 @@ try {
         )
     ");
 
+    // last_lent_dateカラムが存在しない場合は追加
+    $stmt = $db->prepare("PRAGMA table_info(contacts)");
+    $stmt->execute();
+    $columns = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $lastLentDateExists = false;
+    foreach ($columns as $column) {
+        if ($column['name'] === 'last_lent_date') {
+            $lastLentDateExists = true;
+            break;
+        }
+    }
+    if (!$lastLentDateExists) {
+        $db->exec("ALTER TABLE contacts ADD COLUMN last_lent_date TEXT");
+    }
+
     // トランザクションテーブル
     $db->exec("
         CREATE TABLE IF NOT EXISTS transactions (
